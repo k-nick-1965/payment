@@ -1,4 +1,4 @@
-package ru.sbrf.payment.SBback;
+package ru.sbrf.payment.sbback;
 
 import java.util.HashMap;
 
