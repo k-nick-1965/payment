@@ -1,4 +1,6 @@
-package ru.sbrf.payment.SBfront;
+package ru.sbrf.payment.sbfront;
+
+import java.io.IOException;
 
 public class SBOL {
     private String addrHost;
@@ -7,8 +9,10 @@ public class SBOL {
     private String protocol;
 //    private SBOLuser currentUser;
 
-    public static void main(String[] args) {
-        SBOLuser currentUser = new SBOLuser();
+    public static void main(String[] args) throws IOException {
+        SBOLuser sbClient = new SBOLuser();
+        sbClient.userInterface();
+
     }
 
     public void pay(String addrHost, String addrIP, int port, String protocol) {
@@ -16,6 +20,8 @@ public class SBOL {
         this.addrIP=addrIP;
         this.port=port;
         this.protocol=protocol;
+
+
     }
 
 }
