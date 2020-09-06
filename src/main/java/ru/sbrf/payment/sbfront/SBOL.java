@@ -7,6 +7,8 @@ import ru.sbrf.payment.exchange.ExchWithServer;
 import java.io.*;
 import java.util.Properties;
 
+import static java.lang.Thread.*;
+
 public class SBOL implements ExchWithServer {
     private String addrHost;
     private String addrIP;
@@ -46,21 +48,40 @@ public class SBOL implements ExchWithServer {
     }
 
     @Override
-    public Container GetFromTheServer(Container cont) {
-// TODO: здесь нужно отправить запрос на сервер и получить ответ
-        return null;
+    public Container GetFromTheServer(Container cont) throws IOException, WaitAnserExeption, ClassNotFoundException {
+// отправляем данные на сервер
+        SendToServer(cont);
+// TODO: здесь нужно получить ответ от сервера (дождаться появления файла *.ToClnt, считать содержимое и грохнуть
+// TODO: здесь все закончилось, т.к. Java навернулась с ошибкой "Error:java: Compilation failed: internal java compiler error"
+        for (int i=0; i<60; i++) {
+            File folder = new File(exchangeDir+"\\");
+            if (folder.listFiles().length>0) {
+//                String fileName=folder.listFiles((dir, name) -> {
+//                                                 return name.toLowerCase().endsWith(".ToClnt");
+//                                                })[0].getName();
+ //               StringReader reader = new StringReader(jsonString);
+
+                ObjectMapper mapper = new ObjectMapper();
+//                Class obj = Class.forName("com.test.classes.MyClass");
+//                return (Container) mapper.readValue(reader, Class.forName(fileName.substring(0,fileName.lastIndexOf('.'))));
+            }
+            try {
+                sleep(1000);
+            } catch (InterruptedException  e ) {}
+        }
+        throw new WaitAnserExeption();
     }
 
     @Override
     public void SendToServer(Container cont) throws IOException {
+// отправляем данные на сервер
         StringWriter writer = new StringWriter();
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(writer, cont);
-        String result = writer.toString();
-        System.out.println(result);
-// TODO: здесь нужно отправить данные на сервер
 
-
-
+        String contName = cont.getClass().getName(); //getSimpleName();
+        FileWriter fw = new FileWriter(exchangeDir+"\\" + contName + ".ToSrv", false);
+        fw.write(writer.toString());
+        fw.close();
     }
 }

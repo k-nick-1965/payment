@@ -10,14 +10,14 @@ import java.util.ArrayList;
 
 public class SBOLuser {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, WaitAnserExeption, ClassNotFoundException {
         SBOLuser sbClient = new SBOLuser();
         sbClient.userInterface();
 
     }
 
 
-    public void userInterface() throws IOException {
+    public void userInterface() throws IOException, WaitAnserExeption, ClassNotFoundException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Integer clientNumber = 0;
         while (true) {
@@ -34,7 +34,6 @@ public class SBOLuser {
 // обращение к серверу для получения списка счетов.
         SBOL sbol = new SBOL();
         Container clNumCont = new AuthenticContainer(clientNumber+"");
-        sbol.SendToServer(clNumCont);
         AccntContainer accntCont = (AccntContainer) sbol.GetFromTheServer(clNumCont);
 //        PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
 
