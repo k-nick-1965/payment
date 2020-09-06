@@ -1,5 +1,6 @@
 package ru.sbrf.payment.sbfront;
 
+import ru.sbrf.payment.exchange.*;
 import ru.sbrf.payment.menu.*;
 
 import java.io.BufferedReader;
@@ -7,13 +8,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class SBOLuser implements PaymentAttributes {
+public class SBOLuser {
 
-    public void userInterface() throws IOException {
+    public static void main(String[] args) throws IOException, WaitAnserExeption, ClassNotFoundException {
+        SBOLuser sbClient = new SBOLuser();
+        sbClient.userInterface();
+
+    }
+
+
+    public void userInterface() throws IOException, WaitAnserExeption, ClassNotFoundException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Integer clientNumber = 0;
         while (true) {
             System.out.print("Введите номер клиента: ");
-            int clientNumber = 0;
             try {
                 clientNumber = Integer.parseInt(reader.readLine());
                 break;
@@ -23,7 +31,13 @@ public class SBOLuser implements PaymentAttributes {
             }
         }
 
-// TODO: Здесь должно быть обращение к серверу для получения списка счетов. Пока - просто перечень счетов
+// обращение к серверу для получения списка счетов.
+        SBOL sbol = new SBOL();
+        Container clNumCont = new AuthenticContainer(clientNumber+"");
+        AccntContainer accntCont = (AccntContainer) sbol.GetFromTheServer(clNumCont);
+//        PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
+
+// TODO: Пока не реализовано серверу  - просто перечень счетов
         ArrayList<String> accnts = new ArrayList<String>();
         accnts.add("40702810055000000001");;
         accnts.add("40702810055000000002");;
@@ -59,7 +73,14 @@ public class SBOLuser implements PaymentAttributes {
             return;
         }
 
-// TODO: Здесь нужно отправить данные на сервер и ждать ответ.
+// обращение к серверу для отправки платежа.
+        Container payCont = new PaymentContainer( clientNumber+"",
+                                                  accnt,
+                                                  Integer.parseInt(mnu.get(1).input),
+                                                  Integer.parseInt(mnu.get(2).input),
+                                                  mnu.get(0).input);
+        ResultContainer resCont = (ResultContainer) sbol.GetFromTheServer(payCont);
+        System.out.println(resCont.getHint());
 
     }
 
@@ -73,37 +94,37 @@ public class SBOLuser implements PaymentAttributes {
 
 
 // TODO: Дальше все лишнее - тгжно переделать
-    private String clientNumber;
-    private String mobileNumber;
-    private double summa;
-    private int currency;
-    private String account;
-
-    public SBOLuser() {
-    }
-
-    @Override
-    public String getClientNumber() {
-        return clientNumber;
-    }
-
-    @Override
-    public String getMobileNumber() {
-        return this.mobileNumber;
-    }
-
-    @Override
-    public double getSumma() {
-        return this.summa;
-    }
-
-    @Override
-    public int getCurrency() {
-        return this.currency;
-    }
-
-    @Override
-    public String getAccount() {
-        return this.account;
-    }
+//    private String clientNumber;
+//    private String mobileNumber;
+//    private double summa;
+//    private int currency;
+//    private String account;
+//
+//    public SBOLuser() {
+//    }
+//
+//    @Override
+//    public String getClientNumber() {
+//        return clientNumber;
+//    }
+//
+//    @Override
+//    public String getMobileNumber() {
+//        return this.mobileNumber;
+//    }
+//
+//    @Override
+//    public double getSumma() {
+//        return this.summa;
+//    }
+//
+//    @Override
+//    public int getCurrency() {
+//        return this.currency;
+//    }
+//
+//    @Override
+//    public String getAccount() {
+//        return this.account;
+//    }
 }
