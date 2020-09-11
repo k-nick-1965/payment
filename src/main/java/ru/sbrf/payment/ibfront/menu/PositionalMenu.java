@@ -1,4 +1,4 @@
-package ru.sbrf.payment.menu;
+package ru.sbrf.payment.ibfront.menu;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ru.sbrf.payment.exchange;
+package ru.sbrf.payment.common.exchange;
 
 import java.io.IOException;
 

@@ -1,17 +1,17 @@
-package ru.sbrf.payment.sbfront;
+package ru.sbrf.payment.ibfront;
 
-import ru.sbrf.payment.exchange.*;
-import ru.sbrf.payment.menu.*;
+import ru.sbrf.payment.common.exchange.*;
+import ru.sbrf.payment.ibfront.menu.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class SBOLuser {
+public class IBuser {
 
     public static void main(String[] args) throws IOException, WaitAnserExeption, ClassNotFoundException {
-        SBOLuser sbClient = new SBOLuser();
+        IBuser sbClient = new IBuser();
         sbClient.userInterface();
 
     }
@@ -32,12 +32,13 @@ public class SBOLuser {
         }
 
 // обращение к серверу для получения списка счетов.
-        SBOL sbol = new SBOL();
-        Container clNumCont = new AuthenticContainer(clientNumber+"");
-        AccntContainer accntCont = (AccntContainer) sbol.GetFromTheServer(clNumCont);
-//        PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
+        IBclient ibclient = new IBclient();
+        Container clNumCont = new ClientAuthenticContainer(clientNumber+"");
+        ClientAuthenticContainer accntCont = ibclient.GetFromTheServer(clNumCont, ClientAuthenticContainer.class);
+//  TODO:    ServerAccntContainer accntCont = (ServerAccntContainer) ibclient.GetFromTheServer(clNumCont, ServerAccntContainer.class);
+//  TODO:      PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
 
-// TODO: Пока не реализовано серверу  - просто перечень счетов
+// TODO: Пока не реализовано на сервере  - просто перечень счетов
         ArrayList<String> accnts = new ArrayList<String>();
         accnts.add("40702810055000000001");;
         accnts.add("40702810055000000002");;
@@ -74,12 +75,12 @@ public class SBOLuser {
         }
 
 // обращение к серверу для отправки платежа.
-        Container payCont = new PaymentContainer( clientNumber+"",
+        Container payCont = new ClientPaymentContainer( clientNumber+"",
                                                   accnt,
                                                   Integer.parseInt(mnu.get(1).input),
                                                   Integer.parseInt(mnu.get(2).input),
                                                   mnu.get(0).input);
-        ResultContainer resCont = (ResultContainer) sbol.GetFromTheServer(payCont);
+        ServerResultContainer resCont = (ServerResultContainer) ibclient.GetFromTheServer(payCont, ServerResultContainer.class);
         System.out.println(resCont.getHint());
 
     }

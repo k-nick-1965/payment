@@ -1,4 +1,4 @@
-package ru.sbrf.payment.menu;
+package ru.sbrf.payment.ibfront.menu;
 
 public class MenuItem {
     public String hint;
