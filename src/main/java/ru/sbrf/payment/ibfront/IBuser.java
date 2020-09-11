@@ -38,6 +38,7 @@ public class IBuser {
 //  TODO:    ServerAccntContainer accntCont = (ServerAccntContainer) ibclient.GetFromTheServer(clNumCont, ServerAccntContainer.class);
 //  TODO:      PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
 
+
 // TODO: Пока не реализовано на сервере  - просто перечень счетов
         ArrayList<String> accnts = new ArrayList<String>();
         accnts.add("40702810055000000001");;
