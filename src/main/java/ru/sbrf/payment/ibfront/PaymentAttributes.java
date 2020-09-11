@@ -1,4 +1,4 @@
-package ru.sbrf.payment.sbfront;
+package ru.sbrf.payment.ibfront;
 
 public interface PaymentAttributes {
     String getClientNumber();   // получить от пользователя его уникальный номер
