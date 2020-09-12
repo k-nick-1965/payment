@@ -4,8 +4,8 @@ import java.io.IOException;
 
 public interface ExchWithClient {
 
-    Container GetFromTheClient(Container cont);
+    <T extends Container> T GetFromTheClient(Class<T> valueType) throws ContainerExeption, ClassNotFoundException;
 
-    void SendToClient(Container cont) throws IOException;
+    <T extends Container> void SendToClient(Container cont) throws IOException;
 
 }

@@ -13,9 +13,8 @@ public class Container implements Serializable {
     }
 
     public Long viewUniqueNumber() {
-        return Long.valueOf(clientNumber.hashCode() * timeStamp.hashCode());
+        return ((Long.valueOf(clientNumber.hashCode()) * Integer.MAX_VALUE) + timeStamp.hashCode());
     }
-
     public String getClientNumber() {
         return clientNumber;
     }
