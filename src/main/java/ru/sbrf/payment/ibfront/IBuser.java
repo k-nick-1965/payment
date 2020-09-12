@@ -30,14 +30,13 @@ public class IBuser {
                 reader.read();
             }
         }
+        Container clNumCont = new ClientAuthenticContainer(clientNumber+"");
 
 // обращение к серверу для получения списка счетов.
         IBclient ibclient = new IBclient();
-        Container clNumCont = new ClientAuthenticContainer(clientNumber+"");
-        ClientAuthenticContainer accntCont = ibclient.GetFromTheServer(clNumCont, ClientAuthenticContainer.class);
-//  TODO:    ServerAccntContainer accntCont = (ServerAccntContainer) ibclient.GetFromTheServer(clNumCont, ServerAccntContainer.class);
-//  TODO:      PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
-
+//  TODO: после проверки сервеа      ServerAccntContainer accntCont = ibclient.GetFromTheServer(clNumCont, ServerAccntContainer.class);
+//  TODO: после проверки сервеа      PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
+//
 
 // TODO: Пока не реализовано на сервере  - просто перечень счетов
         ArrayList<String> accnts = new ArrayList<String>();
@@ -81,52 +80,10 @@ public class IBuser {
                                                   Integer.parseInt(mnu.get(1).input),
                                                   Integer.parseInt(mnu.get(2).input),
                                                   mnu.get(0).input);
-        ServerResultContainer resCont = (ServerResultContainer) ibclient.GetFromTheServer(payCont, ServerResultContainer.class);
+        ServerResultContainer resCont = ibclient.GetFromTheServer(payCont, ServerResultContainer.class);
         System.out.println(resCont.getHint());
 
     }
 
 
-
-
-
-
-
-
-
-
-// TODO: Дальше все лишнее - тгжно переделать
-//    private String clientNumber;
-//    private String mobileNumber;
-//    private double summa;
-//    private int currency;
-//    private String account;
-//
-//    public SBOLuser() {
-//    }
-//
-//    @Override
-//    public String getClientNumber() {
-//        return clientNumber;
-//    }
-//
-//    @Override
-//    public String getMobileNumber() {
-//        return this.mobileNumber;
-//    }
-//
-//    @Override
-//    public double getSumma() {
-//        return this.summa;
-//    }
-//
-//    @Override
-//    public int getCurrency() {
-//        return this.currency;
-//    }
-//
-//    @Override
-//    public String getAccount() {
-//        return this.account;
-//    }
 }
