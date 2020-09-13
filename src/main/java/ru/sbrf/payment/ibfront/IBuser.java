@@ -34,18 +34,23 @@ public class IBuser {
 
 // обращение к серверу для получения списка счетов.
         IBclient ibclient = new IBclient();
-//  TODO: после проверки сервеа      ServerAccntContainer accntCont = ibclient.GetFromTheServer(clNumCont, ServerAccntContainer.class);
-//  TODO: после проверки сервеа      PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
+        ServerAccntContainer accntCont = ibclient.GetFromTheServer(clNumCont, ServerAccntContainer.class);
+        if (accntCont.getCode()!=0) {
+            System.out.println(accntCont.getHint());
+            System.out.println("До свидания. Ждем Вас снова.");
+            return;
+        }
+        PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
 //
 
-// TODO: Пока не реализовано на сервере  - просто перечень счетов
-        ArrayList<String> accnts = new ArrayList<String>();
-        accnts.add("40702810055000000001");;
-        accnts.add("40702810055000000002");;
-        accnts.add("40702810055000000003");;
-        accnts.add("40702810055000000004");;
-        accnts.add("40702810055000000005");;
-        PositionalMenu amnu = new PositionalMenu(accnts);
+//        Для отладки без сервера - просто перечень счетов
+//        ArrayList<String> accnts = new ArrayList<String>();
+//        accnts.add("40702810055000000001");;
+//        accnts.add("40702810055000000002");;
+//        accnts.add("40702810055000000003");;
+//        accnts.add("40702810055000000004");;
+//        accnts.add("40702810055000000005");;
+//        PositionalMenu amnu = new PositionalMenu(accnts);
         String accnt="";
         try {
             accnt = amnu.usePositionalMenu("Выберите счет списания:");
@@ -61,7 +66,7 @@ public class IBuser {
         ArrayList<MenuItem> mnu = new ArrayList<MenuItem>();
         mnu.add(new MenuItem("Номер телефона (10 цифр)", "\\d{10}"));
         mnu.add(new MenuItem("Сумма (целое число)", "\\d{1,}"));
-        mnu.add(new MenuItem("Код валюты", "\\d{3}","по умолчанию - 810", true ));
+        mnu.add(new MenuItem("Код валюты", "\\d{3}","810", true ));
         TextMenu pmnu = new TextMenu(mnu);
         try {
             pmnu.useTextMenu("Введите параметры платежа");

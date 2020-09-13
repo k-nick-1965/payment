@@ -46,7 +46,7 @@ public class TextMenu {
         System.out.println(title);
         for (int i = 0; i < menuItems.size(); i++) { // не используется foreach, т.к. все равно нужен счетчик
             System.out.print(i + " - " + menuItems.get(i).hint);
-            if (menuItems.get(i).ready) System.out.print(" (" + menuItems.get(i).input + ")");
+            if (menuItems.get(i).ready) System.out.print(" {" + menuItems.get(i).input + "}");
             System.out.println("");
         }
         System.out.println(menuItems.size() + " - Выход");
