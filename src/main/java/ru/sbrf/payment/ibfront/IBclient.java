@@ -2,6 +2,7 @@ package ru.sbrf.payment.ibfront;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.sbrf.payment.common.exchange.*;
+import ru.sbrf.payment.ibback.IBserver;
 
 import java.io.*;
 import java.util.Properties;
@@ -14,7 +15,7 @@ public class IBclient implements ExchWithServer {
     private Integer port;
     private String protocol;
     private String exchangeDir;
-
+    private IBserver ibserver; // for debuggin
 
     public IBclient() throws IOException {
         File file = new File("PayProperties.ini");
@@ -27,23 +28,27 @@ public class IBclient implements ExchWithServer {
         this.protocol = properties.getProperty("protocol");
         this.exchangeDir = properties.getProperty("exchangeDir");
         pay();
+        ibserver = new IBserver(); // for debuggin
     }
 
     public void pay() {
+        // TODO Здесь должна быть инициализация канала связи между клиентской и серверной частью.
+        // TODO при обмене данными через обший каталог в не нет необходимости.
     }
 
-    public void pay(String addrHost, String addrIP, int port, String protocol) {
-        this.addrHost=addrHost;
-        this.addrIP=addrIP;
-        this.port=port;
-        this.protocol=protocol;
-    }
+//    public void pay(String addrHost, String addrIP, int port, String protocol) {
+//        this.addrHost=addrHost;
+//        this.addrIP=addrIP;
+//        this.port=port;
+//        this.protocol=protocol;
+//    }
 
     @Override
     public <T extends Container> T GetFromTheServer(Container cont, Class<T> valueType ) throws IOException, WaitAnserExeption, ClassNotFoundException {
         // отправляем данные на сервер
         // "Class<T> valueType" - написал чисто как попугай из исходников Jackson-а. Что это означает понимаю слабо
         SendToServer(cont);
+        ibserver.testingIBserver(); // for debuggin
         // ждем ответ от сервера (дождаться появления файла *.ToClnt, считать содержимое и грохнуть
         String ansName = exchangeDir+"\\"+valueType.getSimpleName()+".ToClnt"; //getName();
         File ansFile = new File(ansName);
@@ -51,6 +56,7 @@ public class IBclient implements ExchWithServer {
             // ждем ответ 60 секунд
             if (ansFile.exists()) {
                 ObjectMapper mapper = new ObjectMapper();
+                // TODO в будущем придется разделить прием данных и десериализацию. сейчас в этом нет необходимости.
                 T result = (T) mapper.readValue(ansFile, valueType);
                 ansFile.delete();
                 return result;
@@ -67,6 +73,7 @@ public class IBclient implements ExchWithServer {
     @Override
     public void SendToServer(Container cont) throws IOException {
         // отправляем данные на сервер
+        // TODO в будущем придется разделить сериализацию и отправку данных. сейчас в этом нет необходимости.
         File sndFile = new File(exchangeDir+"\\" + cont.getClass().getSimpleName() + ".ToSrv");
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(sndFile, cont);

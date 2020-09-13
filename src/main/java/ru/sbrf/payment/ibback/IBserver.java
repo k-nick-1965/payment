@@ -10,8 +10,8 @@ import static java.lang.Thread.sleep;
 
 public class IBserver implements ExchWithClient {
     // TODO В этом классе вообще ничего не тестировалось
-    private HashMap<String, ArrayList<String>> accountsList; // список счетов клиентов
-    private HashSet<Long> usedUNs;  // использованные уникальные номера
+    private HashMap<String, ArrayList<String>> accountsList = new HashMap<>();; // список счетов клиентов
+    private HashSet<Long> usedUNs = new HashSet<>();  // использованные уникальные номера
     private String exchangeDir;  // каталог обмена
 
     public static void main(String[] args) throws IOException {
@@ -19,22 +19,26 @@ public class IBserver implements ExchWithClient {
         ibs.startIBserver();
     }
 
-    public IBserver() {
-    }
-
-    public void startIBserver() throws IOException {
+    public IBserver() throws IOException {
         initAccountsList();
         File file = new File("PayProperties.ini");
         Properties properties = new Properties();
         properties.load(new FileReader(file));
         this.exchangeDir = properties.getProperty("exchangeDir");
+    }
 
+    public void startIBserver() throws IOException {
         while (true) {
             performAuthentication ();
             performPayment();
 
             try { sleep(1000); } catch (InterruptedException e ) {}
         }
+    }
+
+    public void testingIBserver() throws IOException {
+        performAuthentication ();
+        performPayment();
     }
 
     private void performAuthentication () throws IOException {
@@ -111,18 +115,18 @@ public class IBserver implements ExchWithClient {
         mapper.writeValue(sndFile, cont);
     }
 
-    private void initAccountsList() {
-//        List<String> as = new ArrayList(Arrays.asList("a", "b", "c", "d"));
+    private void initAccountsList() { // for debuggin
+        //        List<String> as = new ArrayList(Arrays.asList("a", "b", "c", "d"));
         accountsList.put("4564", new ArrayList<String>(Arrays.asList("40817810000000000000",
-                "40817810000000000001",                                                                     "40817810000000000000",
+                "40817810000000000001",
                 "40817810000000000002",
                 "40817810000000000003")));
         accountsList.put("4545", new ArrayList<String>(Arrays.asList("40817810000000000005",
-                "40817810000000000006",                                                                     "40817810000000000000",
+                "40817810000000000006",
                 "40817810000000000007",
                 "40817810000000000008")));
         accountsList.put("5656", new ArrayList<String>(Arrays.asList("40817810000000000009",
-                "40817810000000000010",                                                                     "40817810000000000000",
+                "40817810000000000010",
                 "40817810000000000011",
                 "40817810000000000012")));
     }
