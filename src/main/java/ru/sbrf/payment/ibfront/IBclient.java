@@ -36,15 +36,8 @@ public class IBclient implements ExchWithServer {
         // TODO при обмене данными через обший каталог в не нет необходимости.
     }
 
-//    public void pay(String addrHost, String addrIP, int port, String protocol) {
-//        this.addrHost=addrHost;
-//        this.addrIP=addrIP;
-//        this.port=port;
-//        this.protocol=protocol;
-//    }
-
     @Override
-    public <T extends Container> T GetFromTheServer(Container cont, Class<T> valueType ) throws IOException, WaitAnserExeption, ClassNotFoundException {
+    public <T extends Container> T GetFromTheServer(Container cont, Class<T> valueType ) throws IOException, WaitAnswerExeption, ClassNotFoundException {
         // отправляем данные на сервер
         // "Class<T> valueType" - написал чисто как попугай из исходников Jackson-а. Что это означает понимаю слабо
         SendToServer(cont);
@@ -66,9 +59,8 @@ public class IBclient implements ExchWithServer {
             valueType.toString();
             valueType.getSimpleName();
          }
-        throw new WaitAnserExeption("Истек таймаут ожидания ответа от сервера.");
+        throw new WaitAnswerExeption("Истек таймаут ожидания ответа от сервера.");
     }
-
 
     @Override
     public void SendToServer(Container cont) throws IOException {
