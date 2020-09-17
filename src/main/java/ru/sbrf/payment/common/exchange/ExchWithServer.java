@@ -1,7 +1,5 @@
 package ru.sbrf.payment.common.exchange;
 
-import ru.sbrf.payment.ibfront.WaitAnswerExeption;
-
 import java.io.IOException;
 
 public interface ExchWithServer {

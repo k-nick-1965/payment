@@ -3,16 +3,16 @@ package ru.sbrf.payment.common.exchange;
 import java.io.Serializable;
 
 public class ServerResultContainer extends Container implements Serializable {
-    private Integer code;
+    private ExchangeResult code;
     private String hint;
 
-    public ServerResultContainer(String clientNumber, Integer code, String hint) {
+    public ServerResultContainer(String clientNumber, ExchangeResult code, String hint) {
         super(clientNumber);
         this.code = code;
         this.hint = hint;
     }
 
-    public Integer getCode() {
+    public ExchangeResult getCode() {
         return code;
     }
 
@@ -24,7 +24,7 @@ public class ServerResultContainer extends Container implements Serializable {
 
     public ServerResultContainer() {}
 
-    public void setCode(Integer code) { this.code = code; }
-
-    public void setHint(String hint) { this.hint = hint; }
+//    public void setCode(ExchangeResult code) { this.code = code; }
+//
+//    public void setHint(String hint) { this.hint = hint; }
 }
