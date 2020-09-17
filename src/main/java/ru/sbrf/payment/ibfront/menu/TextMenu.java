@@ -30,7 +30,7 @@ public class TextMenu {
                 else return;
             }
             else if (0 <= pos && pos < menuItems.size()) System.out.print("Введите значение [" + menuItems.get(pos).hint + "]: ");
-            else throw new MenuBadNumberException();
+            else throw new MenuBadNumberException("Ошибка выбора номера строки.");
             String inp = reader.readLine();
             if (Pattern.matches(menuItems.get(pos).mask,inp)) {
                 menuItems.get(pos).input = inp;

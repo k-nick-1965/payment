@@ -44,7 +44,7 @@ public class IBuser {
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         }
-        if (accntCont.getCode()!=0) {
+        if (accntCont.getCode()!=ExchangeResult.OK) {
             // проверка на наличие ошибок на стороне сервера
             System.out.println(accntCont.getHint());
             System.out.println("До свидания. Ждем Вас снова.");

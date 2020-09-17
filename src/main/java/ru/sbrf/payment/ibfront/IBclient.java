@@ -55,9 +55,9 @@ public class IBclient implements ExchWithServer {
                 return result;
             }
             try { sleep(1000); } catch (InterruptedException e ) {}
-            valueType.getCanonicalName();
-            valueType.toString();
-            valueType.getSimpleName();
+//            valueType.getCanonicalName();
+//            valueType.toString();
+//            valueType.getSimpleName();
          }
         throw new WaitAnswerExeption("Истек таймаут ожидания ответа от сервера.");
     }

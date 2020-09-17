@@ -50,10 +50,10 @@ public class IBserver implements ExchWithClient {
             cac = GetFromTheClient(ClientAuthenticContainer.class);
             if (cac==null) return; // пакет не обнаружен
         } catch (ContainerExeption ce) {
-            sac = new ServerAccntContainer("",1,ce.getMessage());
+            sac = new ServerAccntContainer("",ce.getCode(),ce.getMessage());
         }
         if (!accountsList.containsKey(cac.getClientNumber())) {
-            sac = new ServerAccntContainer(cac.getClientNumber(),3,"Ошибка. Отсутствующий номер клиента.");
+            sac = new ServerAccntContainer(cac.getClientNumber(),ExchangeResult.MISSING_USER_NUMBER,"Ошибка. Отсутствующий номер клиента.");
         }
         else {
             ArrayList<String> accnts = accountsList.get(cac.getClientNumber());
@@ -71,15 +71,15 @@ public class IBserver implements ExchWithClient {
             cpc = GetFromTheClient(ClientPaymentContainer.class);
             if (cpc==null) return; // пакет не обнаружен
         } catch (ContainerExeption ce) {
-            src = new ServerResultContainer("",1,ce.getMessage());
+            src = new ServerResultContainer("",ce.getCode(),ce.getMessage());
         }
         if (!accountsList.containsKey(cpc.getClientNumber())) {
-            src = new ServerResultContainer(cpc.getClientNumber(),3,"Ошибка. Отсутствующий номер клиента.");
+            src = new ServerResultContainer(cpc.getClientNumber(),ExchangeResult.MISSING_USER_NUMBER,"Ошибка. Отсутствующий номер клиента.");
         }
         else {
-            // В этом месте мы проверяем реквизиты платежа
+            // В этом месте мы якобы проверяем реквизиты платежа
             // и отправляем мобильному оператору
-            src = new ServerResultContainer(cpc.getClientNumber(),0,"Платеж отправлен. Надейтесь на лучшее.");
+            src = new ServerResultContainer(cpc.getClientNumber(),ExchangeResult.OK,"Платеж отправлен. Надейтесь на лучшее.");
         }
         SendToClient(src);
     }
@@ -95,13 +95,14 @@ public class IBserver implements ExchWithClient {
             try {
                 result = (T) mapper.readValue(inFile, valueType);
             } catch (IOException e) {
-                throw new ContainerExeption("Ошибка открытия пакета.");
+                throw new ContainerExeption("Ошибка открытия пакета.",ExchangeResult.CONTAINER_OPENIN_ERROR);
             }
             inFile.delete();
-            if  (usedUNs.contains(result.viewUniqueNumber())) {
-                throw new ContainerExeption("Ошибка. Повтор пакета.");
+            // Проверяем ID пакета
+            if  (usedUNs.contains(result.viewUniqueNumber())) { // такой ID уже был
+                throw new ContainerExeption("Ошибка. Повтор пакета.",ExchangeResult.CONTAINER_DUPLICATE_ERROR);
             }
-            else usedUNs.add(result.viewUniqueNumber());
+            else usedUNs.add(result.viewUniqueNumber()); // такого ID не было, добавляем ID пакета в Set
             return result;
         }
         return null;

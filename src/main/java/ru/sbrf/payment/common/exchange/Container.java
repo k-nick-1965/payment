@@ -15,6 +15,7 @@ public class Container implements Serializable {
     public Long viewUniqueNumber() {
         return ((Long.valueOf(clientNumber.hashCode()) * Integer.MAX_VALUE) + timeStamp.hashCode());
     }
+
     public String getClientNumber() {
         return clientNumber;
     }
@@ -27,5 +28,13 @@ public class Container implements Serializable {
     public Date getTimeStamp() {
         return timeStamp;
     }
+
+//    public void setTimeStamp(Date timeStamp) {
+//        this.timeStamp = timeStamp;
+//    }
+//
+//    public void setClientNumber(String clientNumber) {
+//        this.clientNumber = clientNumber;
+//    }
 
 }

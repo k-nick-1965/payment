@@ -1,4 +1,4 @@
-package ru.sbrf.payment.ibfront;
+package ru.sbrf.payment.common.exchange;
 
 public class WaitAnswerExeption extends Exception{
     public WaitAnswerExeption(){}

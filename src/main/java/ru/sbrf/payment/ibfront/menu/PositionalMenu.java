@@ -27,7 +27,7 @@ public class PositionalMenu {
             }
             if (0 <= pos && pos < menuItems.size()) return menuItems.get(pos);
             else if (pos == menuItems.size()) throw new MenuCancelExeption();
-            else throw new MenuBadNumberException();
+            else throw new MenuBadNumberException("Ошибка выбора номера строки.");
         }
     }
 
