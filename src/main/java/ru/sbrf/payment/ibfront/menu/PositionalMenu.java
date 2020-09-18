@@ -13,7 +13,7 @@ public class PositionalMenu {
         this.menuItems = menuItems;
     }
 
-    public String usePositionalMenu(String title) throws MenuBadNumberException, MenuCancelExeption {
+    public String usePositionalMenu(String title) throws MenuCancelExeption, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             writeMenu(title);
@@ -22,12 +22,17 @@ public class PositionalMenu {
             try {
                 pos = Integer.parseInt(reader.readLine());
             } catch (IOException e) {
-                System.out.println("Error: Введен некорректный номер пункта.");
+                System.out.println("Error: Введен некорректный номер пункта. <Press any key>");
+                reader.read();
                 continue;
             }
             if (0 <= pos && pos < menuItems.size()) return menuItems.get(pos);
-            else if (pos == menuItems.size()) throw new MenuCancelExeption();
-            else throw new MenuBadNumberException("Ошибка выбора номера строки.");
+            else if (pos == menuItems.size()) throw new MenuCancelExeption("Отказ от выбора.");
+            else {
+                System.out.println("Ошибка выбора номера строки. <Press any key>");
+                reader.read();
+                continue;
+            }
         }
     }
 

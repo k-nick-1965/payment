@@ -13,7 +13,7 @@ public class TextMenu {
         this.menuItems = menuItems;
     }
 
-    public void useTextMenu(String title) throws MenuBadNumberException, MenuCancelExeption, IOException {
+    public void useTextMenu(String title) throws MenuCancelExeption, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             writeMenu(title);
@@ -26,11 +26,15 @@ public class TextMenu {
                 continue;
             }
             if (pos == menuItems.size()) {
-                for (MenuItem mi:menuItems) if (!mi.ready) throw new MenuCancelExeption();
+                for (MenuItem mi:menuItems) if (!mi.ready) throw new MenuCancelExeption("Отказ от ввода полного набора реквизитов.");
                 else return;
             }
             else if (0 <= pos && pos < menuItems.size()) System.out.print("Введите значение [" + menuItems.get(pos).hint + "]: ");
-            else throw new MenuBadNumberException("Ошибка выбора номера строки.");
+            else {
+                System.out.println("Ошибка выбора номера строки.");
+                reader.read();
+                continue;
+            }
             String inp = reader.readLine();
             if (Pattern.matches(menuItems.get(pos).mask,inp)) {
                 menuItems.get(pos).input = inp;

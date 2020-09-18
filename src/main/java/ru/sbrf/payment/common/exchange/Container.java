@@ -29,12 +29,4 @@ public class Container implements Serializable {
         return timeStamp;
     }
 
-//    public void setTimeStamp(Date timeStamp) {
-//        this.timeStamp = timeStamp;
-//    }
-//
-//    public void setClientNumber(String clientNumber) {
-//        this.clientNumber = clientNumber;
-//    }
-
 }

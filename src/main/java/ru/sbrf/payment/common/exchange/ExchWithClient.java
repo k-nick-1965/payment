@@ -6,6 +6,6 @@ public interface ExchWithClient {
 
     <T extends Container> T GetFromTheClient(Class<T> valueType) throws ContainerExeption, ClassNotFoundException;
 
-    <T extends Container> void SendToClient(Container cont) throws IOException;
+    void SendToClient(Container cont) throws IOException;
 
 }
