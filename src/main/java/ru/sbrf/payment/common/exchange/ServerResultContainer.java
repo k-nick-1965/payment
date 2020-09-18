@@ -24,7 +24,4 @@ public class ServerResultContainer extends Container implements Serializable {
 
     public ServerResultContainer() {}
 
-//    public void setCode(ExchangeResult code) { this.code = code; }
-//
-//    public void setHint(String hint) { this.hint = hint; }
 }

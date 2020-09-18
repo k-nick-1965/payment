@@ -9,7 +9,6 @@ import java.util.*;
 import static java.lang.Thread.sleep;
 
 public class IBserver implements ExchWithClient {
-    // TODO В этом классе вообще ничего не тестировалось
     private HashMap<String, ArrayList<String>> accountsList = new HashMap<>();; // список счетов клиентов
     private HashSet<Long> usedUNs = new HashSet<>();  // использованные уникальные номера
     private String exchangeDir;  // каталог обмена
@@ -87,7 +86,7 @@ public class IBserver implements ExchWithClient {
 
     @Override
     public <T extends Container> T GetFromTheClient(Class<T> valueType) throws ContainerExeption {
-        // загрузка класса из файла пакета
+        // загрузка класса из файла контейнера
         File inFile = new File(exchangeDir+"\\"+ valueType.getSimpleName()+".ToSrv");
         if (inFile.exists()) {
             ObjectMapper mapper = new ObjectMapper();
@@ -95,11 +94,11 @@ public class IBserver implements ExchWithClient {
             try {
                 result = (T) mapper.readValue(inFile, valueType);
             } catch (IOException e) {
-                throw new ContainerExeption("Ошибка открытия пакета.",ExchangeResult.CONTAINER_OPENIN_ERROR);
+                throw new ContainerExeption("Ошибка открытия пакета.",ExchangeResult.CONTAINER_OPENING_ERROR);
             }
             inFile.delete();
             // Проверяем ID пакета
-            if  (usedUNs.contains(result.viewUniqueNumber())) { // такой ID уже был
+            if  (usedUNs.contains(result.viewUniqueNumber())) { // такой ID уже был. Это ошибка
                 throw new ContainerExeption("Ошибка. Повтор пакета.",ExchangeResult.CONTAINER_DUPLICATE_ERROR);
             }
             else usedUNs.add(result.viewUniqueNumber()); // такого ID не было, добавляем ID пакета в Set
@@ -109,7 +108,7 @@ public class IBserver implements ExchWithClient {
    }
 
     @Override
-    public <T extends Container> void SendToClient(Container cont) throws IOException {
+    public void SendToClient(Container cont) throws IOException {
         // отправляем данные на клиентскую часть
         File sndFile = new File(exchangeDir+"\\" + cont.getClass().getSimpleName() + ".ToClnt");
         ObjectMapper mapper = new ObjectMapper();
@@ -117,6 +116,7 @@ public class IBserver implements ExchWithClient {
     }
 
     private void initAccountsList() { // for debuggin
+        // Первоначальная загрузка списка клиентов
         //        List<String> as = new ArrayList(Arrays.asList("a", "b", "c", "d"));
         accountsList.put("4564", new ArrayList<String>(Arrays.asList("40817810000000000000",
                 "40817810000000000001",

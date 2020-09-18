@@ -34,10 +34,4 @@ public class ServerAccntContainer extends Container implements Serializable {
 
     public ServerAccntContainer() {}
 
-//    public void setCode(ExchangeResult code) { this.code = code; }
-//
-//    public void setHint(String hint) { this.hint = hint; }
-//
-//    public void setClientAccounts(ArrayList<String> clientAccounts) { this.clientAccounts = clientAccounts; }
-
 }

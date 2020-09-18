@@ -36,11 +36,4 @@ public class ClientPaymentContainer extends Container implements Serializable {
 
     public ClientPaymentContainer() {}
 
-//    public void setAccount(String account) { this.account = account; }
-//
-//    public void setSumma(Integer summa) { this.summa = summa; }
-//
-//    public void setCurrency(Integer currency) { this.currency = currency; }
-//
-//    public void setMobileNumber(String mobileNumber) { this.mobileNumber = mobileNumber; }
 }

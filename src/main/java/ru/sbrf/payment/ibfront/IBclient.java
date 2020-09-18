@@ -20,7 +20,6 @@ public class IBclient implements ExchWithServer {
     public IBclient() throws IOException {
         File file = new File("PayProperties.ini");
         Properties properties = new Properties();
-//        properties.store(new FileWriter(file),"Test");
         properties.load(new FileReader(file));
         this.addrHost = properties.getProperty("addrHost");
         this.addrIP = properties.getProperty("addrIP");
@@ -33,13 +32,14 @@ public class IBclient implements ExchWithServer {
 
     public void pay() {
         // TODO Здесь должна быть инициализация канала связи между клиентской и серверной частью.
-        // TODO при обмене данными через обший каталог в не нет необходимости.
+        // TODO при обмене данными через обший каталог в нет нет необходимости.
     }
 
     @Override
     public <T extends Container> T GetFromTheServer(Container cont, Class<T> valueType ) throws IOException, WaitAnswerExeption, ClassNotFoundException {
         // отправляем данные на сервер
         // "Class<T> valueType" - написал чисто как попугай из исходников Jackson-а. Что это означает понимаю слабо
+        // заглянул в исходники и почувствовал себя ущербным.
         SendToServer(cont);
         ibserver.testingIBserver(); // for debuggin
         // ждем ответ от сервера (дождаться появления файла *.ToClnt, считать содержимое и грохнуть
@@ -55,9 +55,6 @@ public class IBclient implements ExchWithServer {
                 return result;
             }
             try { sleep(1000); } catch (InterruptedException e ) {}
-//            valueType.getCanonicalName();
-//            valueType.toString();
-//            valueType.getSimpleName();
          }
         throw new WaitAnswerExeption("Истек таймаут ожидания ответа от сервера.");
     }

@@ -35,8 +35,8 @@ public class IBuser {
         ServerAccntContainer accntCont = null;
         try {
             accntCont = ibclient.GetFromTheServer(clNumCont, ServerAccntContainer.class);
-        } catch (WaitAnswerExeption waitAnswerExeption) {
-            System.out.println("Нет связи с сервером.");
+        } catch (WaitAnswerExeption e) {
+            System.out.println(e.getMessage());
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         } catch (ClassNotFoundException e) {
@@ -56,10 +56,7 @@ public class IBuser {
         try {
             accnt = amnu.usePositionalMenu("Выберите счет списания:");
         } catch (MenuCancelExeption e) {
-            System.out.println("До свидания. Ждем Вас снова.");
-            return;
-        } catch (MenuBadNumberException e) { // Exeption сделан только в тренировочных целях. По-хорошему - нужно вернуться к выбору.
-            System.out.println("Ошибка выбора номера строки.");
+            System.out.println(e.getMessage());
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         }
@@ -72,10 +69,7 @@ public class IBuser {
         try {
             pmnu.useTextMenu("Введите параметры платежа");
         } catch (MenuCancelExeption e) {
-            System.out.println("До свидания. Ждем Вас снова.");
-            return;
-        } catch (MenuBadNumberException e) { // Exeption сделан только в тренировочных целях. По-хорошему - нужно вернуться к выбору.
-            System.out.println("Ошибка выбора номера строки.");
+            System.out.println(e.getMessage());
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         }
@@ -89,8 +83,8 @@ public class IBuser {
         try {
 // Отправка платежа на сервер
             resCont = ibclient.GetFromTheServer(payCont, ServerResultContainer.class);
-        } catch (WaitAnswerExeption waitAnswerExeption) {
-            System.out.println("Нет связи с сервером.");
+        } catch (WaitAnswerExeption e) {
+            System.out.println(e.getMessage());
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         } catch (ClassNotFoundException e) {
