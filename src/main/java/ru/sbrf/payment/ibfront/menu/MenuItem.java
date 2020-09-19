@@ -1,10 +1,15 @@
 package ru.sbrf.payment.ibfront.menu;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class MenuItem {
-    public String hint;
-    public String mask;
-    public String input;
-    public boolean ready;
+    private String hint;
+    private String mask;
+    private String input;
+    private boolean ready;
 
     public MenuItem(String hint) {
         this.hint = hint;

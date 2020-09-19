@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class TextMenu {
-    private ArrayList<MenuItem> menuItems;
+    private final ArrayList<MenuItem> menuItems;
 
     public TextMenu(ArrayList<MenuItem> menuItems) {
         this.menuItems = menuItems;
@@ -17,7 +17,7 @@ public class TextMenu {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             writeMenu(title);
-            int pos = 0;
+            int pos;
             try {
                 pos = Integer.parseInt(reader.readLine());
             } catch (IOException e) {
@@ -26,19 +26,19 @@ public class TextMenu {
                 continue;
             }
             if (pos == menuItems.size()) {
-                for (MenuItem mi:menuItems) if (!mi.ready) throw new MenuCancelExeption("Отказ от ввода полного набора реквизитов.");
+                for (MenuItem mi:menuItems) if (!mi.isReady()) throw new MenuCancelExeption("Отказ от ввода полного набора реквизитов.");
                 else return;
             }
-            else if (0 <= pos && pos < menuItems.size()) System.out.print("Введите значение [" + menuItems.get(pos).hint + "]: ");
+            else if (0 <= pos && pos < menuItems.size()) System.out.print("Введите значение [" + menuItems.get(pos).getHint() + "]: ");
             else {
                 System.out.println("Ошибка выбора номера строки.");
                 reader.read();
                 continue;
             }
             String inp = reader.readLine();
-            if (Pattern.matches(menuItems.get(pos).mask,inp)) {
-                menuItems.get(pos).input = inp;
-                menuItems.get(pos).ready = true;
+            if (Pattern.matches(menuItems.get(pos).getMask(),inp)) {
+                menuItems.get(pos).setInput(inp);
+                menuItems.get(pos).setReady(true);
             } else {
                 System.out.println("Error: Введено некорректное значение. <Press any key>");
                 reader.read();
@@ -49,9 +49,9 @@ public class TextMenu {
     private void writeMenu (String title) {
         System.out.println(title);
         for (int i = 0; i < menuItems.size(); i++) { // не используется foreach, т.к. все равно нужен счетчик
-            System.out.print(i + " - " + menuItems.get(i).hint);
-            if (menuItems.get(i).ready) System.out.print(" {" + menuItems.get(i).input + "}");
-            System.out.println("");
+            System.out.print(i + " - " + menuItems.get(i).getHint());
+            if (menuItems.get(i).isReady()) System.out.print(" {" + menuItems.get(i).getInput() + "}");
+            System.out.println();
         }
         System.out.println(menuItems.size() + " - Выход");
         System.out.print("> ");

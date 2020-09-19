@@ -10,7 +10,6 @@ public class ClientAuthenticContainer extends Container implements Serializable 
     }
 
     // все, что дальше - нужно только для сериализации/десериализации
-
     public ClientAuthenticContainer() {
     }
 

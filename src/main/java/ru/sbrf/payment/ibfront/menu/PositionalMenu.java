@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class PositionalMenu {
 
-    private ArrayList<String> menuItems;
+    private final ArrayList<String> menuItems;
 
     public PositionalMenu(ArrayList<String> menuItems) {
         this.menuItems = menuItems;

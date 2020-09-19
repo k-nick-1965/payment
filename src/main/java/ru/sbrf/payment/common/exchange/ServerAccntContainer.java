@@ -1,8 +1,11 @@
 package ru.sbrf.payment.common.exchange;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@Getter
 public class ServerAccntContainer extends Container implements Serializable {
     private ExchangeResult code;
     private String hint;
@@ -22,16 +25,7 @@ public class ServerAccntContainer extends Container implements Serializable {
         this.clientAccounts = new ArrayList<String>(0);
     }
 
-   public ArrayList<String> getClientAccounts() {
-        return clientAccounts;
-    }
-
-   public ExchangeResult getCode() { return code; }
-
-   public String getHint() { return hint; }
-
-// все, что дальше - нужно только для сериализации/десериализации
-
+    // все, что дальше - нужно только для сериализации/десериализации
     public ServerAccntContainer() {}
 
 }
