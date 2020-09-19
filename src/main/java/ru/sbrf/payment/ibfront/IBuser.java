@@ -1,6 +1,9 @@
 package ru.sbrf.payment.ibfront;
 
 import ru.sbrf.payment.common.exchange.*;
+import ru.sbrf.payment.ibfront.inputs.PaymentCurrency;
+import ru.sbrf.payment.ibfront.inputs.PaymentSumma;
+import ru.sbrf.payment.ibfront.inputs.PhoneNumber;
 import ru.sbrf.payment.ibfront.menu.*;
 
 import java.io.BufferedReader;
@@ -62,9 +65,12 @@ public class IBuser {
         }
 // Ввод реквизитов платежа.
         ArrayList<MenuItem> mnu = new ArrayList<MenuItem>();
-        mnu.add(new MenuItem("Номер телефона (10 цифр)", "\\d{10}"));
-        mnu.add(new MenuItem("Сумма (целое число)", "\\d{1,}"));
-        mnu.add(new MenuItem("Код валюты", "\\d{3}","810", true ));
+        PhoneNumber phoneNumber;
+        PaymentSumma paymentSumma;
+        PaymentCurrency paymentCurrency;
+        mnu.add(new MenuItem("Номер телефона", phoneNumber = new PhoneNumber("")));
+        mnu.add(new MenuItem("Сумма", paymentSumma=new PaymentSumma("")));
+        mnu.add(new MenuItem("Код валюты", paymentCurrency=new PaymentCurrency("810"), true ));
         TextMenu pmnu = new TextMenu(mnu);
         try {
             pmnu.useTextMenu("Введите параметры платежа");
@@ -76,9 +82,9 @@ public class IBuser {
 // Формирование пакета с платежом
         Container payCont = new ClientPaymentContainer( clientNumber+"",
                                                   accnt,
-                                                  Integer.parseInt(mnu.get(1).getInput()),
-                                                  Integer.parseInt(mnu.get(2).getInput()),
-                                                  mnu.get(0).getInput());
+                                                  (Long) mnu.get(1).getItem().conversion(),
+                                                  (Integer) mnu.get(2).getItem().conversion(),
+                                                  (String) mnu.get(0).getItem().conversion());
         ServerResultContainer resCont = null;
         try {
 // Отправка платежа на сервер

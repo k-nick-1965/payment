@@ -36,8 +36,8 @@ public class TextMenu {
                 continue;
             }
             String inp = reader.readLine();
-            if (Pattern.matches(menuItems.get(pos).getMask(),inp)) {
-                menuItems.get(pos).setInput(inp);
+            menuItems.get(pos).getItem().setInputString(inp);
+            if (menuItems.get(pos).getItem().validation()) {
                 menuItems.get(pos).setReady(true);
             } else {
                 System.out.println("Error: Введено некорректное значение. <Press any key>");
@@ -50,7 +50,7 @@ public class TextMenu {
         System.out.println(title);
         for (int i = 0; i < menuItems.size(); i++) { // не используется foreach, т.к. все равно нужен счетчик
             System.out.print(i + " - " + menuItems.get(i).getHint());
-            if (menuItems.get(i).isReady()) System.out.print(" {" + menuItems.get(i).getInput() + "}");
+            if (menuItems.get(i).isReady()) System.out.print(" {" + menuItems.get(i).getItem().getInputString() + "}");
             System.out.println();
         }
         System.out.println(menuItems.size() + " - Выход");
