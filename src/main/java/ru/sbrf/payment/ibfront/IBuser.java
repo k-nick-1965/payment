@@ -76,9 +76,9 @@ public class IBuser {
 // Формирование пакета с платежом
         Container payCont = new ClientPaymentContainer( clientNumber+"",
                                                   accnt,
-                                                  Integer.parseInt(mnu.get(1).input),
-                                                  Integer.parseInt(mnu.get(2).input),
-                                                  mnu.get(0).input);
+                                                  Integer.parseInt(mnu.get(1).getInput()),
+                                                  Integer.parseInt(mnu.get(2).getInput()),
+                                                  mnu.get(0).getInput());
         ServerResultContainer resCont = null;
         try {
 // Отправка платежа на сервер

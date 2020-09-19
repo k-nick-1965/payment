@@ -1,7 +1,10 @@
 package ru.sbrf.payment.common.exchange;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 
+@Getter
 public class ServerResultContainer extends Container implements Serializable {
     private ExchangeResult code;
     private String hint;
@@ -12,16 +15,7 @@ public class ServerResultContainer extends Container implements Serializable {
         this.hint = hint;
     }
 
-    public ExchangeResult getCode() {
-        return code;
-    }
-
-    public String getHint() {
-        return hint;
-    }
-
-// все, что дальше - нужно только для сериализации/десериализации
-
+    // все, что дальше - нужно только для сериализации/десериализации
     public ServerResultContainer() {}
 
 }

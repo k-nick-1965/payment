@@ -1,7 +1,9 @@
 package ru.sbrf.payment.common.exchange;
 
+import lombok.Getter;
 import java.io.Serializable;
 
+@Getter
 public class ClientPaymentContainer extends Container implements Serializable {
     private String account;
     private Integer summa;
@@ -16,24 +18,8 @@ public class ClientPaymentContainer extends Container implements Serializable {
         this.mobileNumber = mobileNumber;
     }
 
-    public String getAccount() {
-        return account;
-    }
 
-    public Integer getSumma() {
-        return summa;
-    }
-
-    public Integer getCurrency() {
-        return currency;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-// все, что дальше - нужно только для сериализации/десериализации
-
+    // все, что дальше - нужно только для сериализации/десериализации
     public ClientPaymentContainer() {}
 
 }
