@@ -45,9 +45,15 @@ public class IBserver implements ExchWithClient {
         // отправка списка счетов клиента
         ClientAuthenticContainer cac = null;
         ServerAccntContainer sac = null;
+        Optional<ClientAuthenticContainer> opt;
         try {
-            cac = GetFromTheClient(ClientAuthenticContainer.class);
-            if (cac==null) return; // пакет не обнаружен
+            opt = GetFromTheClient(ClientAuthenticContainer.class);
+            if (opt.isPresent()) cac=opt.get();
+            else return; // пакет не обнаружен
+            // Получилось адски коряво по сравнению с этим:
+            // cac = GetFromTheClient(ClientAuthenticContainer.class);
+            // if (cac==null) return;
+            // видимо чего-то я недопонял
         } catch (ContainerExeption ce) {
             sac = new ServerAccntContainer("",ce.getCode(),ce.getMessage());
         }
@@ -61,14 +67,18 @@ public class IBserver implements ExchWithClient {
         SendToClient(sac);
     }
 
-    private void performPayment () throws IOException {
+    private void performPayment() throws IOException {
         // проверка наличия клиента по его номеру
-        // отправка списка счетов клиента
+        // отправка подтверждения/ошибки клиенту
         ClientPaymentContainer cpc = null;
         ServerResultContainer src = null;
+        Optional<ClientPaymentContainer> opt;
         try {
-            cpc = GetFromTheClient(ClientPaymentContainer.class);
-            if (cpc==null) return; // пакет не обнаружен
+            opt = GetFromTheClient(ClientPaymentContainer.class);
+            if (opt.isPresent()) cpc=opt.get();
+            else return; // пакет не обнаружен
+            // cpc = GetFromTheClient(ClientPaymentContainer.class).get();
+            // if (cpc==null) return; // пакет не обнаружен
         } catch (ContainerExeption ce) {
             src = new ServerResultContainer("",ce.getCode(),ce.getMessage());
         }
@@ -85,7 +95,7 @@ public class IBserver implements ExchWithClient {
 
 
     @Override
-    public <T extends Container> T GetFromTheClient(Class<T> valueType) throws ContainerExeption {
+    public <T extends Container> Optional<T> GetFromTheClient(Class<T> valueType) throws ContainerExeption {
         // загрузка класса из файла контейнера
         File inFile = new File(exchangeDir+"\\"+ valueType.getSimpleName()+".ToSrv");
         if (inFile.exists()) {
@@ -102,9 +112,9 @@ public class IBserver implements ExchWithClient {
                 throw new ContainerExeption("Ошибка. Повтор пакета.",ExchangeResult.CONTAINER_DUPLICATE_ERROR);
             }
             else usedUNs.add(result.viewUniqueNumber()); // такого ID не было, добавляем ID пакета в Set
-            return result;
+            return Optional.of(result);
         }
-        return null;
+        return Optional.empty();
    }
 
     @Override

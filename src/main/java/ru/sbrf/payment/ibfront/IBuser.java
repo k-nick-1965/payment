@@ -65,12 +65,9 @@ public class IBuser {
         }
 // Ввод реквизитов платежа.
         ArrayList<MenuItem> mnu = new ArrayList<MenuItem>();
-        PhoneNumber phoneNumber;
-        PaymentSumma paymentSumma;
-        PaymentCurrency paymentCurrency;
-        mnu.add(new MenuItem("Номер телефона", phoneNumber = new PhoneNumber("")));
-        mnu.add(new MenuItem("Сумма", paymentSumma=new PaymentSumma("")));
-        mnu.add(new MenuItem("Код валюты", paymentCurrency=new PaymentCurrency("810"), true ));
+        mnu.add(new MenuItem("Номер телефона", new PhoneNumber("")));
+        mnu.add(new MenuItem("Сумма", new PaymentSumma("")));
+        mnu.add(new MenuItem("Код валюты", new PaymentCurrency("810"), true ));
         TextMenu pmnu = new TextMenu(mnu);
         try {
             pmnu.useTextMenu("Введите параметры платежа");
