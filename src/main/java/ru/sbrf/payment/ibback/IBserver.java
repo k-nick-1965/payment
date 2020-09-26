@@ -47,12 +47,13 @@ public class IBserver implements ExchWithClient {
         ServerAccntContainer sac = null;
         Optional<ClientAuthenticContainer> opt;
         try {
-            opt = GetFromTheClient(ClientAuthenticContainer.class);
-            if (opt.isPresent()) cac=opt.get();
+            if ((opt = GetFromTheClient(ClientAuthenticContainer.class)).isPresent()) cac=opt.get();
             else return; // пакет не обнаружен
-            // Получилось адски коряво по сравнению с этим:
+            // Получилось как-то коряво по сравнению с этим:
             // cac = GetFromTheClient(ClientAuthenticContainer.class);
             // if (cac==null) return;
+            // а можно было и так:
+            // if ((cac = GetFromTheClient(ClientAuthenticContainer.class))==null) return;
             // видимо чего-то я недопонял
         } catch (ContainerExeption ce) {
             sac = new ServerAccntContainer("",ce.getCode(),ce.getMessage());
@@ -74,11 +75,8 @@ public class IBserver implements ExchWithClient {
         ServerResultContainer src = null;
         Optional<ClientPaymentContainer> opt;
         try {
-            opt = GetFromTheClient(ClientPaymentContainer.class);
-            if (opt.isPresent()) cpc=opt.get();
+            if ((opt = GetFromTheClient(ClientPaymentContainer.class)).isPresent()) cpc=opt.get();
             else return; // пакет не обнаружен
-            // cpc = GetFromTheClient(ClientPaymentContainer.class).get();
-            // if (cpc==null) return; // пакет не обнаружен
         } catch (ContainerExeption ce) {
             src = new ServerResultContainer("",ce.getCode(),ce.getMessage());
         }
