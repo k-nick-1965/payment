@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class TextMenu {
     private final ArrayList<MenuItem> menuItems;
@@ -37,7 +36,7 @@ public class TextMenu {
             }
             String inp = reader.readLine();
             menuItems.get(pos).getItem().setInputString(inp);
-            if (menuItems.get(pos).getItem().validate()) {
+            if (menuItems.get(pos).getItem().check()) {
                 menuItems.get(pos).setReady(true);
             } else {
                 System.out.println("Error: Введено некорректное значение. <Press Enter>");

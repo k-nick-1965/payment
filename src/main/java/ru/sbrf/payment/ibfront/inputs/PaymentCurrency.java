@@ -8,14 +8,9 @@ public class PaymentCurrency extends Inputs{
         super(InputString);
     }
 
-//    @Override
-//    public boolean validation() {
-//        return Pattern.matches("\\d{3}",super.getInputString());
-//    }
-
     @Override
-    public boolean validate() {
-        return super.validation((x) -> Pattern.matches("\\d{3}",x));
+    public boolean check() {
+        return super.checking((x) -> Pattern.matches("\\d{3}",x));
     }
 
     @Override
