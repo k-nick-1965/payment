@@ -21,16 +21,16 @@ public class PositionalMenu {
             int pos = 0;
             try {
                 pos = Integer.parseInt(reader.readLine());
-            } catch (IOException e) {
-                System.out.println("Error: Введен некорректный номер пункта. <Press any key>");
-                reader.read();
+            } catch (NumberFormatException | IOException e) {
+                System.out.println("Error: Введен некорректный номер пункта. <Press Enter>");
+                reader.readLine();
                 continue;
             }
             if (0 <= pos && pos < menuItems.size()) return menuItems.get(pos);
             else if (pos == menuItems.size()) throw new MenuCancelExeption("Отказ от выбора.");
             else {
-                System.out.println("Ошибка выбора номера строки. <Press any key>");
-                reader.read();
+                System.out.println("Ошибка выбора номера строки. <Press Enter>");
+                reader.readLine();
                 continue;
             }
         }
