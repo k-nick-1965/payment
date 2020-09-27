@@ -3,6 +3,7 @@ package ru.sbrf.payment.ibback;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.sbrf.payment.common.exchange.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.util.*;
 
@@ -116,7 +117,7 @@ public class IBserver implements ExchWithClient {
    }
 
     @Override
-    public void SendToClient(Container cont) throws IOException {
+    public void SendToClient(@NotNull Container cont) throws IOException {
         // отправляем данные на клиентскую часть
         File sndFile = new File(exchangeDir+"\\" + cont.getClass().getSimpleName() + ".ToClnt");
         ObjectMapper mapper = new ObjectMapper();

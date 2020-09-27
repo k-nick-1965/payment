@@ -1,5 +1,6 @@
 package ru.sbrf.payment.ibfront.menu;
 
+import javax.validation.constraints.NotNull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,11 +10,11 @@ public class PositionalMenu {
 
     private final ArrayList<String> menuItems;
 
-    public PositionalMenu(ArrayList<String> menuItems) {
+    public PositionalMenu(@NotNull ArrayList<String> menuItems) {
         this.menuItems = menuItems;
     }
 
-    public String usePositionalMenu(String title) throws MenuCancelExeption, IOException {
+    public String usePositionalMenu(@NotNull String title) throws MenuCancelExeption, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             writeMenu(title);
