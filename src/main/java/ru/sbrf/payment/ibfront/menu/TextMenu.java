@@ -1,5 +1,6 @@
 package ru.sbrf.payment.ibfront.menu;
 
+import javax.validation.constraints.NotNull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,11 +9,11 @@ import java.util.ArrayList;
 public class TextMenu {
     private final ArrayList<MenuItem> menuItems;
 
-    public TextMenu(ArrayList<MenuItem> menuItems) {
+    public TextMenu(@NotNull ArrayList<MenuItem> menuItems) {
         this.menuItems = menuItems;
     }
 
-    public void useTextMenu(String title) throws MenuCancelExeption, IOException {
+    public void useTextMenu(@NotNull String title) throws MenuCancelExeption, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             writeMenu(title);

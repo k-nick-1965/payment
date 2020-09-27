@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.sbrf.payment.common.exchange.*;
 import ru.sbrf.payment.ibback.IBserver;
 
+import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.util.Properties;
 
@@ -36,7 +37,7 @@ public class IBclient implements ExchWithServer {
     }
 
     @Override
-    public <T extends Container> T GetFromTheServer(Container cont, Class<T> valueType ) throws IOException, WaitAnswerExeption, ClassNotFoundException {
+    public <T extends Container> T GetFromTheServer(@NotNull Container cont, Class<T> valueType ) throws IOException, WaitAnswerExeption, ClassNotFoundException {
         // отправляем данные на сервер
         // "Class<T> valueType" - написал чисто как попугай из исходников Jackson-а. Что это означает понимаю слабо
         // заглянул в исходники и почувствовал себя ущербным.
@@ -60,7 +61,7 @@ public class IBclient implements ExchWithServer {
     }
 
     @Override
-    public void SendToServer(Container cont) throws IOException {
+    public void SendToServer(@NotNull Container cont) throws IOException {
         // отправляем данные на сервер
         // TODO в будущем придется разделить сериализацию и отправку данных. сейчас в этом нет необходимости.
         File sndFile = new File(exchangeDir+"\\" + cont.getClass().getSimpleName() + ".ToSrv");
