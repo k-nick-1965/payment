@@ -10,11 +10,6 @@ public class PhoneNumber extends Inputs{
         super(InputString);
     }
 
-//    @Override
-//    public boolean validation() {
-//        return conversion().length()==10;
-//    }
-
     @Override
     public boolean check() {
         return conversion().length()==10;

@@ -12,8 +12,6 @@ public abstract class Inputs{
         this.inputString=defaultString;
     }
 
-//    public abstract boolean validation();
-//    public abstract boolean validation(Validator<String> checker);
     public boolean checking(Checker<String> checker) {
         return checker.checking(inputString);
     }
