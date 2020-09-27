@@ -14,8 +14,8 @@ public class PaymentCurrency extends Inputs{
 //    }
 
     @Override
-    public boolean validate() {
-        return super.validation((x) -> Pattern.matches("\\d{3}",x));
+    public boolean check() {
+        return super.checking((x) -> Pattern.matches("\\d{3}",x));
     }
 
     @Override

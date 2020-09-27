@@ -13,11 +13,11 @@ public abstract class Inputs{
     }
 
 //    public abstract boolean validation();
-//    public abstract boolean validation(Validator<String> validator);
-    public boolean validation(Validator<String> validator) {
-        return validator.validation(inputString);
+//    public abstract boolean validation(Validator<String> checker);
+    public boolean checking(Checker<String> checker) {
+        return checker.checking(inputString);
     }
-    public abstract boolean validate();
+    public abstract boolean check();
     public abstract Object conversion();
 
 }

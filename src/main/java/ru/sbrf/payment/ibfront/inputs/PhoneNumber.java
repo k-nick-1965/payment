@@ -16,7 +16,7 @@ public class PhoneNumber extends Inputs{
 //    }
 
     @Override
-    public boolean validate() {
+    public boolean check() {
         return conversion().length()==10;
     }
 
