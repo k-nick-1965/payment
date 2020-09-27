@@ -27,8 +27,8 @@ public class IBuser {
                 clientNumber = Integer.parseInt(reader.readLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Error: Введен некорректный номер клиента. <Press any key>");
-                reader.read();
+                System.out.println("Error: Введен некорректный номер клиента. <Press Enter>");
+                reader.readLine();
             }
         }
         Container clNumCont = new ClientAuthenticContainer(clientNumber+"");

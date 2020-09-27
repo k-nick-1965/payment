@@ -20,9 +20,9 @@ public class TextMenu {
             int pos;
             try {
                 pos = Integer.parseInt(reader.readLine());
-            } catch (IOException e) {
-                System.out.println("Error: Введен некорректный номер пункта. <Press any key>");
-                reader.read();
+            } catch (NumberFormatException | IOException e) {
+                System.out.println("Error: Введен некорректный номер пункта. <Press Enter>");
+                reader.readLine();
                 continue;
             }
             if (pos == menuItems.size()) {
@@ -37,11 +37,11 @@ public class TextMenu {
             }
             String inp = reader.readLine();
             menuItems.get(pos).getItem().setInputString(inp);
-            if (menuItems.get(pos).getItem().validation()) {
+            if (menuItems.get(pos).getItem().validate()) {
                 menuItems.get(pos).setReady(true);
             } else {
-                System.out.println("Error: Введено некорректное значение. <Press any key>");
-                reader.read();
+                System.out.println("Error: Введено некорректное значение. <Press Enter>");
+                reader.readLine();
             }
         }
     }

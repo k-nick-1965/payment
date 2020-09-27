@@ -8,9 +8,14 @@ public class PaymentSumma extends Inputs{
         super(InputString);
     }
 
+//    @Override
+//    public boolean validation() {
+//        return Pattern.matches("(\\d+\\.?\\d*)",super.getInputString());
+//    }
+
     @Override
-    public boolean validation() {
-        return Pattern.matches("(\\d+\\.?\\d*)",super.getInputString());
+    public boolean validate() {
+        return super.validation((x) -> Pattern.matches("(\\d+\\.?\\d*)",x));
     }
 
     @Override
