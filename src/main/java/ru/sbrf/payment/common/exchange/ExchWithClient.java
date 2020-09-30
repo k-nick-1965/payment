@@ -5,8 +5,8 @@ import java.util.Optional;
 
 public interface ExchWithClient {
 
-    <T extends Container> Optional<T> GetFromTheClient(Class<T> valueType) throws ContainerExeption, ClassNotFoundException;
+    <T extends Container> Optional<T> giveFromTheClient(Class<T> valueType) throws ContainerExeption, ClassNotFoundException;
 
-    void SendToClient(Container cont) throws IOException;
+    void sendToClient(Container cont) throws IOException;
 
 }

@@ -48,7 +48,7 @@ public class IBserver implements ExchWithClient {
         ServerAccntContainer sac = null;
         Optional<ClientAuthenticContainer> opt;
         try {
-            if ((opt = GetFromTheClient(ClientAuthenticContainer.class)).isPresent()) cac=opt.get();
+            if ((opt = giveFromTheClient(ClientAuthenticContainer.class)).isPresent()) cac=opt.get();
             else return; // пакет не обнаружен
             // Получилось как-то коряво по сравнению с этим:
             // cac = GetFromTheClient(ClientAuthenticContainer.class);
@@ -66,7 +66,7 @@ public class IBserver implements ExchWithClient {
             ArrayList<String> accnts = accountsList.get(cac.getClientNumber());
             sac = new ServerAccntContainer(cac.getClientNumber(),accnts);
         }
-        SendToClient(sac);
+        sendToClient(sac);
     }
 
     private void performPayment() throws IOException {
@@ -76,7 +76,7 @@ public class IBserver implements ExchWithClient {
         ServerResultContainer src = null;
         Optional<ClientPaymentContainer> opt;
         try {
-            if ((opt = GetFromTheClient(ClientPaymentContainer.class)).isPresent()) cpc=opt.get();
+            if ((opt = giveFromTheClient(ClientPaymentContainer.class)).isPresent()) cpc=opt.get();
             else return; // пакет не обнаружен
         } catch (ContainerExeption ce) {
             src = new ServerResultContainer("",ce.getCode(),ce.getMessage());
@@ -89,12 +89,12 @@ public class IBserver implements ExchWithClient {
             // и отправляем мобильному оператору
             src = new ServerResultContainer(cpc.getClientNumber(),ExchangeResult.OK,"Платеж отправлен. Надейтесь на лучшее.");
         }
-        SendToClient(src);
+        sendToClient(src);
     }
 
 
     @Override
-    public <T extends Container> Optional<T> GetFromTheClient(Class<T> valueType) throws ContainerExeption {
+    public <T extends Container> Optional<T> giveFromTheClient(Class<T> valueType) throws ContainerExeption {
         // загрузка класса из файла контейнера
         File inFile = new File(exchangeDir+"\\"+ valueType.getSimpleName()+".ToSrv");
         if (inFile.exists()) {
@@ -117,7 +117,7 @@ public class IBserver implements ExchWithClient {
    }
 
     @Override
-    public void SendToClient(@NotNull Container cont) throws IOException {
+    public void sendToClient(@NotNull Container cont) throws IOException {
         // отправляем данные на клиентскую часть
         File sndFile = new File(exchangeDir+"\\" + cont.getClass().getSimpleName() + ".ToClnt");
         ObjectMapper mapper = new ObjectMapper();

@@ -37,11 +37,11 @@ public class IBclient implements ExchWithServer {
     }
 
     @Override
-    public <T extends Container> T GetFromTheServer(@NotNull Container cont, Class<T> valueType ) throws IOException, WaitAnswerExeption, ClassNotFoundException {
+    public <T extends Container> T giveFromTheServer(@NotNull Container cont, Class<T> valueType ) throws IOException, WaitAnswerExeption, ClassNotFoundException {
         // отправляем данные на сервер
         // "Class<T> valueType" - написал чисто как попугай из исходников Jackson-а. Что это означает понимаю слабо
         // заглянул в исходники и почувствовал себя ущербным.
-        SendToServer(cont);
+        sendToServer(cont);
         ibserver.testingIBserver(); // for debuggin
         // ждем ответ от сервера (дождаться появления файла *.ToClnt, считать содержимое и грохнуть
         String ansName = exchangeDir+"\\"+valueType.getSimpleName()+".ToClnt"; //getName();
@@ -61,7 +61,7 @@ public class IBclient implements ExchWithServer {
     }
 
     @Override
-    public void SendToServer(@NotNull Container cont) throws IOException {
+    public void sendToServer(@NotNull Container cont) throws IOException {
         // отправляем данные на сервер
         // TODO в будущем придется разделить сериализацию и отправку данных. сейчас в этом нет необходимости.
         File sndFile = new File(exchangeDir+"\\" + cont.getClass().getSimpleName() + ".ToSrv");

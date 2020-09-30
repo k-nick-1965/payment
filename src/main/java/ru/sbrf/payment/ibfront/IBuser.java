@@ -37,7 +37,7 @@ public class IBuser {
         IBclient ibclient = new IBclient();
         ServerAccntContainer accntCont = null;
         try {
-            accntCont = ibclient.GetFromTheServer(clNumCont, ServerAccntContainer.class);
+            accntCont = ibclient.giveFromTheServer(clNumCont, ServerAccntContainer.class);
         } catch (WaitAnswerExeption e) {
             System.out.println(e.getMessage());
             System.out.println("До свидания. Ждем Вас снова.");
@@ -85,7 +85,7 @@ public class IBuser {
         ServerResultContainer resCont = null;
         try {
 // Отправка платежа на сервер
-            resCont = ibclient.GetFromTheServer(payCont, ServerResultContainer.class);
+            resCont = ibclient.giveFromTheServer(payCont, ServerResultContainer.class);
         } catch (WaitAnswerExeption e) {
             System.out.println(e.getMessage());
             System.out.println("До свидания. Ждем Вас снова.");

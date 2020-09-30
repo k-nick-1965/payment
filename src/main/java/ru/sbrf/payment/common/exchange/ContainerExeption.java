@@ -1,5 +1,8 @@
 package ru.sbrf.payment.common.exchange;
 
+import lombok.Getter;
+
+@Getter
 public class  ContainerExeption extends Exception {
     ExchangeResult code;
 
@@ -8,13 +11,10 @@ public class  ContainerExeption extends Exception {
         this.code=ExchangeResult.OK;
     }
 
-    public ContainerExeption(String message,ExchangeResult er) {
+    public ContainerExeption(String message, ExchangeResult er) {
         super(message);
         this.code=er;
     }
 
-    public ExchangeResult getCode() {
-        return code;
-    }
 }
 

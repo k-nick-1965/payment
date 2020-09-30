@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ClientItemss {
+public class ClientItems {
     // Это должна быть таблица с полями ID, ClientNumber, PassWordHash, Lastname, Firstname, Middlename;
     private static final Map<Integer, ClientItem> clientTable = new HashMap<>();
     private static Integer clientTableID = 0;
@@ -28,10 +28,11 @@ public class ClientItemss {
                 .findFirst();
     }
 
-    public static boolean authentication (String clientNumber, String passWord) {
+    public static Optional<Integer> authentication (String clientNumber, String passWord) {
         Optional<ClientItem> opt;
-        if (!(opt=giveClient(clientNumber)).isPresent()) return false;
-        else return (opt.get().getPassWordHash().equals(passWord.hashCode()));
+        if (!(opt=giveClient(clientNumber)).isPresent()) return Optional.empty();
+        else if (!opt.get().getPassWordHash().equals(passWord.hashCode())) return Optional.empty();
+        else return giveClientID(clientNumber);
     }
 
 }

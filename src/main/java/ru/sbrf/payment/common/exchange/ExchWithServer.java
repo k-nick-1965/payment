@@ -4,8 +4,8 @@ import java.io.IOException;
 
 public interface ExchWithServer {
 
-    <T extends Container> T GetFromTheServer(Container cont, Class<T> valueType ) throws IOException, WaitAnswerExeption, ClassNotFoundException;
+    <T extends Container> T giveFromTheServer(Container cont, Class<T> valueType ) throws IOException, WaitAnswerExeption, ClassNotFoundException;
 
-    void SendToServer(Container cont) throws IOException;
+    void sendToServer(Container cont) throws IOException;
 
 }
