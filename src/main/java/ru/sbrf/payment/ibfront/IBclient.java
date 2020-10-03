@@ -16,7 +16,7 @@ public class IBclient implements ExchWithServer {
     private Integer port;
     private String protocol;
     private String exchangeDir;
-    private IBserver ibserver; // for debuggin
+    private IBserver ibserver; // for debuggin only
 
     public IBclient() throws IOException {
         File file = new File("PayProperties.ini");

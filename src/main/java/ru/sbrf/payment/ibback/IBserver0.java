@@ -36,7 +36,8 @@ public class IBserver0 implements ExchWithClient {
             performAuthentication ();
             performPayment();
 
-            try { sleep(1000); } catch (InterruptedException e ) {}
+            try { sleep(1000); }
+            catch (InterruptedException e ) {}
         }
     }
 

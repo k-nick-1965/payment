@@ -9,12 +9,12 @@ public class AccountCheckExeption extends Exception {
 
     public AccountCheckExeption(String message) {
         super(message);
-        this.code=ExchangeResult.OK;
+        code=ExchangeResult.OK;
     }
 
     public AccountCheckExeption(String message, ExchangeResult er) {
         super(message);
-        this.code=er;
+        code=er;
     }
 
 }

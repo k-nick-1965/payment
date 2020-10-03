@@ -54,7 +54,6 @@ public class IBserver implements ExchWithClient {
         // только не знаю как без этого обойтись, если нужно ветвиться по результату.
         // Т.е., в том случае, когда пустой ответ - штатная ситуация.
 
-
         // проверяем наличие файл контейнера, если есть - закачиваем в контейнер
         try {
             if (( optCAC = giveFromTheClient(ClientAuthenticContainer.class)).isPresent()) cac=optCAC.get();
