@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 public class AccountItems {
     // Это должна быть таблица с полями ID, userID, AccountNumber, Balance
     // Ща буду реализовывать это на коллекциях.
+    // Здесь используются стримы, чтобы потренироваться в их применении.
     private static final Map<Integer, AccountItem> accntTable= new HashMap<>();
     private static Integer accntTableID = 0;
 
@@ -22,25 +23,32 @@ public class AccountItems {
     }
 
     public static Optional<ArrayList<String>> giveClientAccounts(Integer clientID) {
+    // счета клиента
         return Optional.ofNullable(accntTable.values().stream()
                 .filter(x -> x.getClientID().equals(clientID))
                 .map(AccountItem::getNumber)
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
 
-    public static Optional<Long> giveAccountBalance(String number) {
+    public static Optional<Long> giveAccountBalance(String accnt) {
+    // Возвращаем остаток по счету
         return accntTable.values().stream()
-                .filter(x -> x.getNumber().equals(number))
+                .filter(x -> x.getNumber().equals(accnt))
                 .map(AccountItem::getBalance)
                 .findFirst();//.orElse(0L);
     }
 
+    public static Optional<AccountItem> giveAccountItem(String accnt) {
+        // возвращаем реквизиты счета
+        return accntTable.values().stream()
+                .filter(x -> x.getNumber().equals(accnt))
+                .findFirst();//.orElse(0L);
+    }
 
-//    public Long giveAccountBalance(String number) {
-//        return accntTable.values().stream()
-//                .filter(x -> x.getNumber().equals(number))
-//                .map(Account::getBalance)
-//                .findFirst().orElse(0L);
-//    }
+    public static Optional<AccountItem> giveAccountItem(Integer accntID) {
+        // возвращаем реквизиты счета
+        if (accntTable.containsKey(accntID)) return Optional.of(accntTable.get(accntID));
+        else return Optional.empty();
+    }
 
 }

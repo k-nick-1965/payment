@@ -20,18 +20,25 @@ public class IBuser {
 
     public void userInterface() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Integer clientNumber = 0;
-        while (true) {
-            System.out.print("Введите номер клиента: ");
-            try {
-                clientNumber = Integer.parseInt(reader.readLine());
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Введен некорректный номер клиента. <Press Enter>");
-                reader.readLine();
-            }
+        String clientNumber = "";
+        String passWord = "";
+
+        // Ввод идентификатора и (логина) и пароля клиента
+        System.out.print("Введите идентификатор клиента: ");
+        clientNumber = reader.readLine();
+        if (clientNumber.length() < 4) {
+            System.out.println("До свидания. Ждем Вас снова.");
+            return;
         }
-        Container clNumCont = new ClientAuthenticContainer(clientNumber+"");
+        System.out.print("Введите пароль: ");
+        passWord = reader.readLine();
+        if (passWord.length() < 4) {
+            System.out.println("До свидания. Ждем Вас снова.");
+            return;
+        }
+
+        // формируем контейнер с запросом.
+        Container clNumCont = new ClientAuthenticContainer(clientNumber, passWord);
 
 // обращение к серверу для аутентификации и получения списка счетов клиента.
         IBclient ibclient = new IBclient();
@@ -53,7 +60,8 @@ public class IBuser {
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         }
-// Выбор счета списания
+
+        // Выбор счета списания
         PositionalMenu amnu = new PositionalMenu(accntCont.getClientAccounts());
         String accnt="";
         try {
@@ -63,7 +71,8 @@ public class IBuser {
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         }
-// Ввод реквизитов платежа.
+
+        // Ввод реквизитов платежа.
         ArrayList<MenuItem> mnu = new ArrayList<MenuItem>();
         mnu.add(new MenuItem("Номер телефона", new PhoneNumber("")));
         mnu.add(new MenuItem("Сумма", new PaymentSumma("")));
@@ -76,15 +85,17 @@ public class IBuser {
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         }
-// Формирование пакета с платежом
+
+        // Формирование пакета с платежом
         Container payCont = new ClientPaymentContainer( clientNumber+"",
                                                   accnt,
                                                   (Long) mnu.get(1).getItem().conversion(),
                                                   (Integer) mnu.get(2).getItem().conversion(),
                                                   (String) mnu.get(0).getItem().conversion());
         ServerResultContainer resCont = null;
+
+        // Отправка платежа на сервер
         try {
-// Отправка платежа на сервер
             resCont = ibclient.giveFromTheServer(payCont, ServerResultContainer.class);
         } catch (WaitAnswerExeption e) {
             System.out.println(e.getMessage());
@@ -95,6 +106,8 @@ public class IBuser {
             System.out.println("До свидания. Ждем Вас снова.");
             return;
         }
-        System.out.println(resCont.getHint()); // Ответ сервера. здесь уже без разницы - ошибка или нет.
+
+        // Ответ сервера. здесь уже без разницы - ошибка или нет.
+        System.out.println(resCont.getHint());
     }
 }
