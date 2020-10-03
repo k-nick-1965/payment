@@ -2,6 +2,7 @@ package ru.sbrf.payment.ibback;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.sbrf.payment.common.exchange.*;
+import ru.sbrf.payment.ibback.clientsbase.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.*;
@@ -20,7 +21,6 @@ public class IBserver implements ExchWithClient {
     }
 
     public IBserver() throws IOException {
-        initAccountsList();
         File file = new File("PayProperties.ini");
         Properties properties = new Properties();
         properties.load(new FileReader(file));
@@ -32,7 +32,7 @@ public class IBserver implements ExchWithClient {
             performAuthentication ();
             performPayment();
 
-            try { sleep(1000); } catch (InterruptedException e ) {}
+            try { sleep(1000); } catch (InterruptedException e ) { break; }
         }
     }
 
@@ -46,52 +46,91 @@ public class IBserver implements ExchWithClient {
         // отправка списка счетов клиента
         ClientAuthenticContainer cac = null;
         ServerAccntContainer sac = null;
-        Optional<ClientAuthenticContainer> opt;
+        ArrayList<String> accnts;
+        Optional<ClientAuthenticContainer> optCAC;
+        Optional<Integer> optClntID;
+        Optional<ArrayList<String>> optAcnts;
+        // Я понял, что не нужно создавать переменные с типом Optional,
+        // только не знаю как без этого обойтись, если нужно ветвиться по результату.
+        // Т.е., в том случае, когда пустой ответ - штатная ситуация.
+
+
+        // проверяем наличие файл контейнера, если есть - закачиваем в контейнер
         try {
-            if ((opt = giveFromTheClient(ClientAuthenticContainer.class)).isPresent()) cac=opt.get();
-            else return; // пакет не обнаружен
-            // Получилось как-то коряво по сравнению с этим:
-            // cac = GetFromTheClient(ClientAuthenticContainer.class);
-            // if (cac==null) return;
-            // а можно было и так:
-            // if ((cac = GetFromTheClient(ClientAuthenticContainer.class))==null) return;
-            // видимо чего-то я недопонял
+            if (( optCAC = giveFromTheClient(ClientAuthenticContainer.class)).isPresent()) cac=optCAC.get();
+            else return; // штатная ситуация - файл контейнера не обнаружен
         } catch (ContainerExeption ce) {
-            sac = new ServerAccntContainer("",ce.getCode(),ce.getMessage());
+            // Ошибка - пакет есть но закачать не удалось - помещаем диагостическую информацию в контейнер
+            sendToClient(new ServerAccntContainer("",ce.getCode(),ce.getMessage()));
+            return;
         }
-        if (!accountsList.containsKey(cac.getClientNumber())) {
-            sac = new ServerAccntContainer(cac.getClientNumber(),ExchangeResult.MISSING_USER_NUMBER,"Ошибка. Отсутствующий номер клиента.");
+
+        // проводим аутентификацию по номеру клиента и паролю - при положительном результате возвращается ID клиента
+        if ((optClntID=ClientItems.authentication(cac.getClientNumber(), cac.getPassWord())).isPresent()) {
+            // По ID клиента пытаемся получить список счетов клиента
+            if (( optAcnts = AccountItems.giveClientAccounts(optClntID.get())).isPresent()) {
+                if (!optAcnts.get().isEmpty()) {
+                    // Выгружаем список счетов в контейнер
+                    sac = new ServerAccntContainer(cac.getClientNumber(), optAcnts.get());
+                }
+                else {
+                    sac = new ServerAccntContainer(cac.getClientNumber(),ExchangeResult.ACCOUNTS_MISSING,"Ошибка. У клиента отсутствуют счета.");
+                }
+            }
+			else{
+                sac = new ServerAccntContainer(cac.getClientNumber(),ExchangeResult.ACCOUNTS_MISSING,"Ошибка. У клиента отсутствуют счета.");
+            }
+        } else {
+            sac = new ServerAccntContainer(cac.getClientNumber(),ExchangeResult.AUTHENTICATION_ERROR,"Ошибка аутентификации (Неверный идентификатор или пароль).");
         }
-        else {
-            ArrayList<String> accnts = accountsList.get(cac.getClientNumber());
-            sac = new ServerAccntContainer(cac.getClientNumber(),accnts);
-        }
+        // Выгружаем контейнер в файл
         sendToClient(sac);
     }
 
     private void performPayment() throws IOException {
-        // проверка наличия клиента по его номеру
+        // проверка реквизитов платежа
         // отправка подтверждения/ошибки клиенту
         ClientPaymentContainer cpc = null;
         ServerResultContainer src = null;
         Optional<ClientPaymentContainer> opt;
+        AccountItem accntItem = null;
+
+        // проверяем наличие файл контейнера, если есть - закачиваем в контейнер
         try {
             if ((opt = giveFromTheClient(ClientPaymentContainer.class)).isPresent()) cpc=opt.get();
-            else return; // пакет не обнаружен
+            else return; // штатная ситуация - файл контейнера не обнаружен
         } catch (ContainerExeption ce) {
-            src = new ServerResultContainer("",ce.getCode(),ce.getMessage());
+            // Ошибка - пакет есть но закачать не удалось - помещаем диагостическую информацию в контейнер
+            sendToClient(new ServerResultContainer("",ce.getCode(),ce.getMessage()));
+            return;
         }
-        if (!accountsList.containsKey(cpc.getClientNumber())) {
-            src = new ServerResultContainer(cpc.getClientNumber(),ExchangeResult.MISSING_USER_NUMBER,"Ошибка. Отсутствующий номер клиента.");
+
+        // для проверки реквизитов платежа нужно получить реквизиты счета
+        try {
+            accntItem = AccountItems.giveAccountItem(cpc.getAccount()).orElseThrow(() -> new AccountCheckExeption( "Ошибка при обращении к счету.", ExchangeResult.ACCOUNT_ERROR));
+        } catch (AccountCheckExeption ace) {
+            sendToClient(new ServerResultContainer("",ace.getCode(),ace.getMessage()));
+            return;
         }
-        else {
-            // В этом месте мы якобы проверяем реквизиты платежа
-            // и отправляем мобильному оператору
-            src = new ServerResultContainer(cpc.getClientNumber(),ExchangeResult.OK,"Платеж отправлен. Надейтесь на лучшее.");
+
+        // проверяем реквизиты платежа (наличие клиента, принадлежность счета, остаток и валюту)
+        try {
+            accntItem.checkOwner(cpc.getClientNumber())
+                    .checkCurrency(cpc.getCurrency())
+                    .checkBalance(cpc.getSumma());
+        } catch (AccountCheckExeption ace) {
+            sendToClient(new ServerResultContainer("",ace.getCode(),ace.getMessage()));
+            return;
         }
-        sendToClient(src);
+
+        // Отправка платежа получателю
+        sendPaymetToTheMoon(cpc);
+
+        // Инфорирование клиента об исполнении платежа
+        sendToClient(new ServerResultContainer(cpc.getClientNumber(),ExchangeResult.OK,"Платеж отправлен. Надейтесь на лучшее."));
     }
 
+    private void sendPaymetToTheMoon(ClientPaymentContainer cpc) {}
 
     @Override
     public <T extends Container> Optional<T> giveFromTheClient(Class<T> valueType) throws ContainerExeption {
@@ -114,7 +153,7 @@ public class IBserver implements ExchWithClient {
             return Optional.of(result);
         }
         return Optional.empty();
-   }
+    }
 
     @Override
     public void sendToClient(@NotNull Container cont) throws IOException {
@@ -122,23 +161,6 @@ public class IBserver implements ExchWithClient {
         File sndFile = new File(exchangeDir+"\\" + cont.getClass().getSimpleName() + ".ToClnt");
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(sndFile, cont);
-    }
-
-    private void initAccountsList() { // for debuggin
-        // Первоначальная загрузка списка клиентов
-        //        List<String> as = new ArrayList(Arrays.asList("a", "b", "c", "d"));
-        accountsList.put("4564", new ArrayList<String>(Arrays.asList("40817810000000000000",
-                "40817810000000000001",
-                "40817810000000000002",
-                "40817810000000000003")));
-        accountsList.put("4545", new ArrayList<String>(Arrays.asList("40817810000000000005",
-                "40817810000000000006",
-                "40817810000000000007",
-                "40817810000000000008")));
-        accountsList.put("5656", new ArrayList<String>(Arrays.asList("40817810000000000009",
-                "40817810000000000010",
-                "40817810000000000011",
-                "40817810000000000012")));
     }
 
 }
