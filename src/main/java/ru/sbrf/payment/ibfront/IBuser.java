@@ -1,6 +1,7 @@
 package ru.sbrf.payment.ibfront;
 
 import ru.sbrf.payment.common.exchange.*;
+import ru.sbrf.payment.ibfront.inputs.Inputs;
 import ru.sbrf.payment.ibfront.inputs.PaymentCurrency;
 import ru.sbrf.payment.ibfront.inputs.PaymentSumma;
 import ru.sbrf.payment.ibfront.inputs.PhoneNumber;
@@ -73,10 +74,10 @@ public class IBuser {
         }
 
         // Ввод реквизитов платежа.
-        ArrayList<MenuItem> mnu = new ArrayList<MenuItem>();
-        mnu.add(new MenuItem("Номер телефона", new PhoneNumber("")));
-        mnu.add(new MenuItem("Сумма", new PaymentSumma("")));
-        mnu.add(new MenuItem("Код валюты", new PaymentCurrency("810"), true ));
+        ArrayList<MenuItem> mnu = new ArrayList<>();
+        mnu.add(new MenuItem<PhoneNumber>("Номер телефона", new PhoneNumber("")));
+        mnu.add(new MenuItem<PaymentSumma>("Сумма", new PaymentSumma("")));
+        mnu.add(new MenuItem<PaymentCurrency>("Код валюты", new PaymentCurrency("810"), true ));
         TextMenu pmnu = new TextMenu(mnu);
         try {
             pmnu.useTextMenu("Введите параметры платежа");

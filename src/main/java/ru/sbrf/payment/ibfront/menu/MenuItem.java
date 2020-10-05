@@ -25,19 +25,6 @@ public class MenuItem<T  extends Inputs> {
 
 }
 
-//    public MenuItem(String hint) {
-//        this.hint = hint;
-//        this.item = ".{0,}";
-//        this.input = "";
-//        this.ready = false;
-//    }
-//
-//    public MenuItem(String hint, String mask, String input) {
-//        this.hint = hint;
-//        this.mask = mask;
-//        this.input = input;
-//        this.ready = false;
-//    }
 
 
 

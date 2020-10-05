@@ -8,7 +8,7 @@ public class  ContainerExeption extends Exception {
 
     public ContainerExeption(String message) {
         super(message);
-        this.code=ExchangeResult.OK;
+        this.code=ExchangeResult.UNKNOWN_ERROR;
     }
 
     public ContainerExeption(String message, ExchangeResult er) {
