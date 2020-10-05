@@ -11,7 +11,6 @@ import java.util.*;
 import static java.lang.Thread.sleep;
 
 public class IBserver implements ExchWithClient {
-    private HashMap<String, ArrayList<String>> accountsList = new HashMap<>();; // список счетов клиентов
     private HashSet<Long> usedUNs = new HashSet<>();  // использованные уникальные номера
     private String exchangeDir;  // каталог обмена
 

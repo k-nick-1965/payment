@@ -1,5 +1,7 @@
 package ru.sbrf.payment.ibfront.menu;
 
+import ru.sbrf.payment.ibfront.inputs.Inputs;
+
 import javax.validation.constraints.NotNull;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +28,7 @@ public class TextMenu {
                 continue;
             }
             if (pos == menuItems.size()) {
-                for (MenuItem mi:menuItems) if (!mi.isReady()) throw new MenuCancelExeption("Отказ от ввода полного набора реквизитов.");
+                for (MenuItem<Inputs> mi:menuItems) if (!mi.isReady()) throw new MenuCancelExeption("Отказ от ввода полного набора реквизитов.");
                 else return;
             }
             else if (0 <= pos && pos < menuItems.size()) System.out.print("Введите значение [" + menuItems.get(pos).getHint() + "]: ");

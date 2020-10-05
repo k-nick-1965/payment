@@ -12,7 +12,7 @@ public abstract class Inputs{
         this.inputString=defaultString;
     }
 
-    public boolean checking(Checker<String> checker) {
+    public boolean argChecking(Checker<String> checker) {
         return checker.checking(inputString);
     }
     public abstract boolean check();

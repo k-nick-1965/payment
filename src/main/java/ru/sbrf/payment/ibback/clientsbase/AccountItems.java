@@ -11,15 +11,15 @@ public class AccountItems {
     private static Integer accntTableID = 0;
 
     static {  // Помню, что это нехорошо, но, т.к. это эмуляция БД, которую не требуется заполнять, то пойдет.
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").get(),"40817810000000000000",1000000L));
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").get(),"40817810000000000001",1100000L));
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").get(),"40817810000000000002",1200000L));
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").get(),"40817810000000000003",1300000L));
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").get(),"40817810000000000004",1400000L));
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("5656").get(),"40817810000000000005",1500000L));
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("5656").get(),"40817810000000000006",1600000L));
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("5656").get(),"40817810000000000007",1700000L));
-        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("5656").get(),"40817810000000000008",1800000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").orElse(0),"40817810000000000000",1000000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").orElse(0),"40817810000000000001",1100000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").orElse(0),"40817810000000000002",1200000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").orElse(0),"40817810000000000003",1300000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("4545").orElse(0),"40817810000000000004",1400000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("5656").orElse(0),"40817810000000000005",1500000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("5656").orElse(0),"40817810000000000006",1600000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("5656").orElse(0),"40817810000000000007",1700000L));
+        accntTable.put(++accntTableID,new AccountItem(ClientItems.giveClientID("5656").orElse(0),"40817810000000000008",1800000L));
     }
 
     public static Optional<ArrayList<String>> giveClientAccounts(Integer clientID) {

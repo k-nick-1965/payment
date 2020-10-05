@@ -9,7 +9,7 @@ public class AccountCheckExeption extends Exception {
 
     public AccountCheckExeption(String message) {
         super(message);
-        code=ExchangeResult.OK;
+        code=ExchangeResult.UNKNOWN_ERROR;
     }
 
     public AccountCheckExeption(String message, ExchangeResult er) {

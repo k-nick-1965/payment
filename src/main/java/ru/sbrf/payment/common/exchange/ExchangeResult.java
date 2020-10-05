@@ -2,6 +2,7 @@ package ru.sbrf.payment.common.exchange;
 
 public enum ExchangeResult {
     OK,
+    UNKNOWN_ERROR, // Ошибка без расшифровки
     MISSING_USER_NUMBER, // "Ошибка. Отсутствующий номер клиента."
     AUTHENTICATION_ERROR, // "Ошибка аутентификации (Неверный идентификатор или пароль)."
     ACCOUNTS_MISSING, // "Ошибка. У клиента отсутствуют счета."
