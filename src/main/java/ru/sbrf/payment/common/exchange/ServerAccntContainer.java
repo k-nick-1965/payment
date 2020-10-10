@@ -26,6 +26,10 @@ public class ServerAccntContainer extends Container implements Serializable {
     }
 
     // все, что дальше - нужно только для сериализации/десериализации
-    public ServerAccntContainer() {}
+    public ServerAccntContainer() {
+        this.code = ExchangeResult.OK;
+        this.hint = "";
+        this.clientAccounts = new ArrayList<>();
+    }
 
 }

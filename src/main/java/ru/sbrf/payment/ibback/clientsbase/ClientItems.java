@@ -15,6 +15,11 @@ public class ClientItems {
         clientTable.put(++clientTableID, new ClientItem("0000", "0000", new FullName("Хунта", "Кристобаль", "Хозевич")));
     }
 
+    public static Optional<ClientItem> giveClient(Integer clientID) {
+        if (clientTable.containsKey(clientID)) {return Optional.of(clientTable.get(clientID));}
+        else {return Optional.empty();}
+    }
+
     public static Optional<ClientItem> giveClient(String clientNumber) {
         return clientTable.values().stream()
                 .filter(x -> x.getClientNumber().equals(clientNumber))
