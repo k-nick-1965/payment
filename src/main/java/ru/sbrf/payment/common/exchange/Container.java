@@ -20,13 +20,16 @@ public class Container implements Serializable {
         return clientNumber;
     }
 
-// все, что дальше - нужно только для сериализации/десериализации
-
-    public Container() {
-    }
-
     public Date getTimeStamp() {
         return timeStamp;
     }
+
+// все, что дальше - нужно только для сериализации/десериализации
+
+    public Container() {
+        this.clientNumber = "0";
+        this.timeStamp = new Date();
+    }
+
 
 }

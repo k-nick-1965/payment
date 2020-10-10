@@ -16,6 +16,9 @@ public class ServerResultContainer extends Container implements Serializable {
     }
 
     // все, что дальше - нужно только для сериализации/десериализации
-    public ServerResultContainer() {}
+    public ServerResultContainer() {
+        this.code = ExchangeResult.OK;
+        this.hint = "";
+    }
 
 }

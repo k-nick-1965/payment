@@ -18,8 +18,12 @@ public class ClientPaymentContainer extends Container implements Serializable {
         this.mobileNumber = mobileNumber;
     }
 
-
     // все, что дальше - нужно только для сериализации/десериализации
-    public ClientPaymentContainer() {}
+    public ClientPaymentContainer() {
+        this.account = "";
+        this.summa = 0L;
+        this.currency = 0;
+        this.mobileNumber ="";
+    }
 
 }
