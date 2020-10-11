@@ -12,7 +12,7 @@ public class ClientItems {
     static {  // Помню, что это нехорошо, но, т.к. это эмуляция БД, которую не требуется заполнять, то пойдет.
         clientTable.put(++clientTableID, new ClientItem("4545", "4545", new FullName("Петров", "Петр", "Петрович")));
         clientTable.put(++clientTableID, new ClientItem("5656", "5656", new FullName("Иванов", "Иван", "Иванович")));
-        clientTable.put(++clientTableID, new ClientItem("0000", "0000", new FullName("Хунта", "Кристобаль", "Хозевич")));
+        clientTable.put(++clientTableID, new ClientItem("0000", "0001", new FullName("Хунта", "Кристобаль", "Хозевич")));
     }
 
     public static Optional<ClientItem> giveClient(Integer clientID) {

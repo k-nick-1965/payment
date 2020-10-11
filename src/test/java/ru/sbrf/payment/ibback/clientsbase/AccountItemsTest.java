@@ -8,14 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AccountItemsTest {
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void giveClientAccounts() {
     }
@@ -25,10 +17,10 @@ class AccountItemsTest {
     }
 
     @Test
-    void giveAccountItem() {
+    void giveAccountItem_STRING() {
     }
 
     @Test
-    void testGiveAccountItem() {
+    void GiveAccountItem_INTEGER() {
     }
 }

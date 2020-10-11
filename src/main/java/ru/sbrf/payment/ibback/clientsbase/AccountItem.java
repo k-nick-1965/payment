@@ -44,4 +44,9 @@ public class AccountItem {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "" + clientID + number + balance;
+    }
+
 }
