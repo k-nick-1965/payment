@@ -13,4 +13,10 @@ public class FullName {
         this.firstname = firstname;
         this.middlename = middlename;
     }
+
+    @Override
+    public String toString() {
+        return lastname + firstname + middlename;
+    }
+
 }

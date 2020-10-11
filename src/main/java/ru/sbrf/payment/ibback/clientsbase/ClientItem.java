@@ -14,5 +14,9 @@ public class ClientItem {
         this.fullName = fullName;
     }
 
+    @Override
+    public String toString() {
+        return clientNumber + passWordHash + fullName.toString();
+    }
 }
 
