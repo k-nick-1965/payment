@@ -21,7 +21,6 @@ public class IBuser {
         context = new AnnotationConfigApplicationContext(IBuser.class,IBclient.class);
         IBuser sbClient = context.getBean(IBuser.class);
         sbClient.userInterface();
-
 //        IBuser sbClient = new IBuser();
 //        sbClient.userInterface();
     }
