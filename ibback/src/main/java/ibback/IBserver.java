@@ -6,13 +6,9 @@ import exchange.*;
 import ibback.clientsbase.*;
 
 import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
+import java.security.*;
 
 import static java.lang.Thread.sleep;
 
@@ -59,7 +55,7 @@ public class IBserver implements ExchWithClient {
         // только не знаю как без этого обойтись, если нужно ветвиться по результату.
         // Т.е., в том случае, когда пустой ответ - штатная ситуация.
 
-        // проверяем наличие файла пакетаа, если есть - закачиваем в ракет
+        // проверяем наличие файла пакета, если есть - закачиваем в ракет
         try {
             if (( optCAC = giveFromTheClient(ClientAuthenticPack.class)).isPresent()) cac=optCAC.get();
             else return; // штатная ситуация - файл пакетаа не обнаружен
